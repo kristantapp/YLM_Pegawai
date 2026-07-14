@@ -4,6 +4,28 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sistem Informasi Data Pegawai - Yayasan Lembaga Miryam</title>
+  
+  <!-- Tambahan Penting: Timpa Favicon Bawaan Vercel (Huruf V) -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/logo_192_YLM.png">
+    <link rel="shortcut icon" href="/logo_192_YLM.png">
+
+    <!-- Konfigurasi PWA (Ditambahkan tanda / pada manifest) -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#1e40af">
+    
+    <!-- Ikon untuk Google Chrome & Android (Ditambahkan tanda / ) -->
+    <link rel="icon" type="image/png" sizes="192x192" href="/logo_192_YLM.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/logo_512_YLM.png">
+    
+    <!-- Ikon khusus untuk Safari & iPhone/iOS (Ditambahkan tanda / ) -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/logo_180_YLM.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Pegawai YLM">
+  
+  
+  
+  
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -2141,7 +2163,20 @@ function refreshDataAdmin() {
   }, 300); // Cek setiap 0,3 detik sekali
 }
 
-
+// =========================================================
+// SELIPKAN KODE PENDAFTARAN SERVICE WORKER (PWA) DI SINI
+// =========================================================
+        if ('serviceWorker' in navigator) {
+          window.addEventListener('load', function() {
+            navigator.serviceWorker.register('/sw.js')
+              .then(function(registration) {
+                console.log('ServiceWorker sukses terdaftar di Vercel:', registration.scope);
+              }, function(err) {
+                console.error('Pendaftaran ServiceWorker gagal:', err);
+              });
+          });
+        }
+// =========================================================
 
 
 
