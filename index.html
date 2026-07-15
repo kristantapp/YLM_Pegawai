@@ -960,7 +960,13 @@
           }
 
         } else {
-          alert("Gagal memuat profil: " + result.message);
+          Swal.fire({
+            icon: 'error',
+            title: 'Gagal Memuat Profil!',
+            text: `Proses memuat data profil gagal: ${result.message}`,
+            confirmButtonColor: '#3085d6',
+            showConfirmButton: true
+          });
         }
       } catch (error) {
         alert("Terjadi gangguan koneksi data profil.");
@@ -1045,8 +1051,13 @@
           const fileTerpilih = fileInput.files[0];
           
           if (fileTerpilih.size > 2 * 1024 * 1024) {
-            alert("Gagal: Ukuran foto baru terlalu besar! Maksimal 2MB.");
-            return; 
+            Swal.fire({
+              icon: 'error',
+              title: 'File Terlalu Besar',
+              text: 'Gagal: Ukuran pas foto melebihi batas! Maksimal ukuran file adalah 2MB.',
+              confirmButtonColor: '#3085d6'
+            });
+            return; // Tetap hentikan proses pembacaan file
           }
           fotoBlobData = await fileToBase64(fileTerpilih); 
         }
@@ -2332,7 +2343,13 @@ function refreshDataAdmin() {
       if (icon) icon.classList.remove("fa-spin");
       document.body.style.cursor = 'default';
       
-      alert("Proses pembaruan data selesai!");
+      Swal.fire({
+        icon: 'success',
+        title: 'Pembaruan Selesai!',
+        text: 'Proses pembaruan data selesai dilakukan.',
+        timer: 1500, // Menutup otomatis dalam 1.5 detik
+        showConfirmButton: false
+      });
     }
   }, 300); // Cek setiap 0,3 detik sekali
 }
