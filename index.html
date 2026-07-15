@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sistem Informasi Data Pegawai - Yayasan Lembaga Miryam</title>
   
+  
   <!-- Tambahan Penting: Timpa Favicon Bawaan Vercel (Huruf V) -->
     <link rel="icon" type="image/png" sizes="32x32" href="/logo_192_YLM.png">
     <link rel="shortcut icon" href="/logo_192_YLM.png">
@@ -24,10 +25,10 @@
     <meta name="apple-mobile-web-app-title" content="Pegawai YLM">
   
   
-  
-  
+    
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     .bg-ylm-blue { background-color: #1e40af; }
@@ -286,12 +287,16 @@
           <table class="w-full text-left text-sm border-collapse">
             <thead>
               <tr class="bg-slate-100 border-b text-slate-600">
-                <th class="p-4">Foto</th>
-                <th class="p-4">NIPY</th>
-                <th class="p-4">Nama Pegawai</th>
-                <th class="p-4">JK</th>
+                <th class="p-4">Foto</th>                
+                <th class="p-4">Nama Pegawai</th>                
+                <th class="p-4">Mulai Kerja</th>
                 <th class="p-4">Unit Kerja</th>
+                <th class="p-4">Status</th>
+                <th class="p-4">Tugas</th>
                 <th class="p-4">Jabatan</th>
+                <th class="p-4">Pangkat</th>
+                <th class="p-4">Berkala Terakhir</th>
+                <th class="p-4">Usia</th>
                 <th class="p-4 text-center">Aksi</th>
               </tr>
             </thead>
@@ -442,7 +447,7 @@
       <form id="form-profil-pegawai" onsubmit="simpanPerubahanProfil(event)" class="space-y-6">
         
         <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
-          <h3 class="text-lg font-bold text-slate-700 mb-4 flex items-center border-b pb-2"><i class="fa fa-user text-blue-600 mr-2"></i> Kategori 1: Data Diri</h3>
+          <h3 class="text-lg font-bold text-slate-700 mb-4 flex items-center border-b pb-2"><i class="fa fa-user text-blue-600 mr-2"></i> Data Diri</h3>
           <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
             
             
@@ -463,14 +468,14 @@
               <div><label class="block text-xs font-semibold text-slate-500 mb-1">Usia</label><input type="text" id="p_usia" disabled class="w-full p-2.5 border rounded-lg bg-slate-50 outline-none text-sm font-medium"></div>
               <div><label class="block text-xs font-semibold text-slate-500 mb-1">Jenis Kelamin</label><select id="p_jk" disabled class="w-full p-2.5 border rounded-lg bg-slate-50 outline-none text-sm font-medium"><option value="L">Laki-Laki</option><option value="P">Perempuan</option></select></div>
               <div><label class="block text-xs font-semibold text-slate-500 mb-1">Agama</label><input type="text" id="p_agama" disabled class="w-full p-2.5 border rounded-lg bg-slate-50 outline-none text-sm font-medium"></div>
-              <div><label class="block text-xs font-semibold text-slate-500 mb-1">No HP / WA</label><input type="text" id="p_nohp" disabled class="w-full p-2.5 border rounded-lg bg-slate-50 outline-none text-sm font-medium"></div>
+              <div><label class="block text-xs font-semibold text-slate-500 mb-1">No HP / WA (+62)</label><input type="text" id="p_nohp" disabled class="w-full p-2.5 border rounded-lg bg-slate-50 outline-none text-sm font-medium"></div>
               <div><label class="block text-xs font-semibold text-slate-500 mb-1">Alamat Domisili</label><textarea id="p_alamat" disabled rows="2" class="w-full p-2.5 border rounded-lg bg-slate-50 outline-none text-sm font-medium"></textarea></div>
             </div>
           </div>
         </div>
 
         <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
-          <h3 class="text-lg font-bold text-slate-700 mb-4 flex items-center border-b pb-2"><i class="fa fa-briefcase text-blue-600 mr-2"></i> Kategori 2: Data Kepegawaian</h3>
+          <h3 class="text-lg font-bold text-slate-700 mb-4 flex items-center border-b pb-2"><i class="fa fa-briefcase text-blue-600 mr-2"></i> Data Kepegawaian</h3>
           <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
             <div><label class="block text-xs font-semibold text-slate-500 mb-1">NIPY</label><input type="text" id="p_nipy" disabled class="w-full p-2.5 border rounded-lg bg-slate-100 font-bold text-blue-700 outline-none text-sm"></div>
             <div><label class="block text-xs font-semibold text-slate-500 mb-1">Jabatan Resmi</label><input type="text" id="p_jabatan" disabled class="w-full p-2.5 border rounded-lg bg-slate-50 outline-none text-sm font-medium"></div>
@@ -485,7 +490,7 @@
         </div>
 
         <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
-          <h3 class="text-lg font-bold text-slate-700 mb-4 flex items-center border-b pb-2"><i class="fa fa-graduation-cap text-blue-600 mr-2"></i> Kategori 3: Data Pendidikan & Sertifikasi</h3>
+          <h3 class="text-lg font-bold text-slate-700 mb-4 flex items-center border-b pb-2"><i class="fa fa-graduation-cap text-blue-600 mr-2"></i> Data Pendidikan & Sertifikasi</h3>
           <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
             <div><label class="block text-xs font-semibold text-slate-500 mb-1">Pendidikan Terakhir</label><input type="text" id="p_pendidikan" disabled class="w-full p-2.5 border rounded-lg bg-slate-50 outline-none text-sm font-medium"></div>
             <div><label class="block text-xs font-semibold text-slate-500 mb-1">Jurusan / Program Studi</label><input type="text" id="p_jurusan" disabled class="w-full p-2.5 border rounded-lg bg-slate-50 outline-none text-sm font-medium"></div>
@@ -497,7 +502,7 @@
 
         <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
           <h3 class="text-lg font-bold text-slate-700 mb-4 flex items-center border-b pb-2">
-            <i class="fa fa-heart text-blue-600 mr-2"></i> Kategori 4: Data Anggota Keluarga
+            <i class="fa fa-heart text-blue-600 mr-2"></i> Data Anggota Keluarga
           </h3>
           
           <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-6">
@@ -559,7 +564,7 @@
         </div>
 
         <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
-          <h3 class="text-lg font-bold text-slate-700 mb-4 flex items-center border-b pb-2"><i class="fa fa-key text-blue-600 mr-2"></i> Kategori 5: Informasi Akun Sistem</h3>
+          <h3 class="text-lg font-bold text-slate-700 mb-4 flex items-center border-b pb-2"><i class="fa fa-key text-blue-600 mr-2"></i> Informasi Akun Sistem</h3>
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div><label class="block text-xs font-semibold text-slate-500 mb-1">Username Sistem</label><input type="text" id="p_username" disabled class="w-full p-2.5 border rounded-lg bg-slate-100 outline-none text-sm font-medium text-slate-500"></div>
             <div><label class="block text-xs font-semibold text-slate-500 mb-1">Ubah Kata Sandi / Password</label><input type="password" id="p_password" disabled class="w-full p-2.5 border rounded-lg bg-slate-50 outline-none text-sm font-medium" placeholder="Masukkan password baru..."></div>
@@ -599,7 +604,7 @@
   </div>
 
   <script>
-    const API_URL = "https://script.google.com/macros/s/AKfycbyL8aBfLqftEHrT9ry78dJ_u0dg3ZixWYkE_5pIbwkI76Jx5Do7X_0CYjGdwzic5HpY/exec"; 
+    const API_URL = "https://script.google.com/macros/s/AKfycbxNKB98M3bIJude1uPcNugj6acAvcEeI6o0zf7uYUE4ITNflHdXW5JezQzZZN8JJlm3/exec"; 
     let globalData = {};
 
     function showPage(pageId) {
@@ -613,56 +618,73 @@
     //================
     //PERIKSA LOGIN
     //================
-    async function executeLogin(e) {
-      e.preventDefault(); // Mencegah halaman refresh saat submit form
-      
-      // 1. Ambil nilai dari form login
-      const usernameInput = document.getElementById("login-username").value;
-      const passwordInput = document.getElementById("login-password").value;
-      const roleInput = document.getElementById("login-role").value; // 'Admin' atau 'Pegawai'
-      
-      // Ambil tombol submit untuk efek loading
-      const btnSubmit = e.target.querySelector("button[type='submit']");
-      const originalText = btnSubmit.innerHTML;
+   async function executeLogin(e) {
+  e.preventDefault(); // Mencegah halaman refresh saat submit form
+  
+  // 1. Ambil nilai dari form login
+  const usernameInput = document.getElementById("login-username").value;
+  const passwordInput = document.getElementById("login-password").value;
+  const roleInput = document.getElementById("login-role").value; // 'Admin' atau 'Pegawai'
+  
+  // Ambil tombol submit untuk efek loading
+  const btnSubmit = e.target.querySelector("button[type='submit']");
+  const originalText = btnSubmit.innerHTML;
 
-      // Ubah tombol jadi loading
-      btnSubmit.innerHTML = '<i class="fa fa-spinner fa-spin mr-2"></i> Memeriksa...';
-      btnSubmit.disabled = true;
+  // Ubah tombol jadi loading
+  btnSubmit.innerHTML = '<i class="fa fa-spinner fa-spin mr-2"></i> Memeriksa...';
+  btnSubmit.disabled = true;
 
-      try {
-        // 2. Kirim data ke Google Apps Script (Backend)
-        const response = await fetch(API_URL, {
-          method: 'POST',
-          body: JSON.stringify({
-            action: 'login',
-            payload: {
-              username: usernameInput,
-              password: passwordInput,
-              role: roleInput
-            }
-          }),
-          headers: {
-            'Content-Type': 'text/plain;charset=utf-8',
+  try {
+    // 2. Kirim data ke Google Apps Script (Backend)
+    const response = await fetch(API_URL, {
+      method: 'POST',
+      body: JSON.stringify({
+        action: 'login',
+        payload: {
+          username: usernameInput,
+          password: passwordInput,
+          role: roleInput
+        }
+      }),
+      headers: {
+        'Content-Type': 'text/plain;charset=utf-8',
+      }
+    });
+
+    const result = await response.json();
+
+    // 3. Tangani hasil respon dari server
+    if (result.status === "SUCCESS") {
+      const userData = result.data;
+      
+      if (userData.role === "Admin") {
+        // --- JIKA LOGIN SEBAGAI ADMIN ---
+        sessionStorage.setItem("namaAdminAktif", userData.nama);
+
+        // Notifikasi Sukses Admin dengan SweetAlert2
+        Swal.fire({
+          icon: 'success',
+          title: 'Login Berhasil!',
+          text: 'Selamat datang Admin, ' + userData.nama,
+          timer: 1800,
+          showConfirmButton: false,
+          willClose: () => {
+            showPage("admin-dashboard");
+            loadAdminData();
           }
         });
 
-        const result = await response.json();
-
-        // 3. Tangani hasil respon dari server
-        if (result.status === "SUCCESS") {
-          const userData = result.data;
-          
-          if (userData.role === "Admin") {
-            // --- JIKA LOGIN SEBAGAI ADMIN ---
-            sessionStorage.setItem("namaAdminAktif", userData.nama);
-            alert("Berhasil Login! Selamat datang Admin: " + userData.nama);
-            showPage("admin-dashboard");
-            
-            // Memanggil fungsi untuk memuat data tabel di sini
-            loadAdminData(); 
-
-          } else if (userData.role === "Pegawai") {
-            alert("Berhasil Login! Selamat datang: " + userData.nama);
+      } else if (userData.role === "Pegawai") {
+        // --- JIKA LOGIN SEBAGAI PEGAWAI ---
+        
+        // Notifikasi Sukses Pegawai dengan SweetAlert2
+        Swal.fire({
+          icon: 'success',
+          title: 'Login Berhasil!',
+          text: 'Selamat datang, ' + userData.nama,
+          timer: 1800,
+          showConfirmButton: false,
+          willClose: () => {
             document.getElementById("pegawai-navbar-name").innerText = userData.nama;
             
             // 1. Tampilkan Halaman Dashboard Pegawai
@@ -670,35 +692,50 @@
             switchPegawaiTab("profil-saya"); // Buka tab default profil saya
 
             // 2. Kunci tab navigasi berdasarkan Hak Akses (Guru atau Bukan Guru)
-            const tabButtons = document.getElementById("pegawai-tabs"); // Pastikan div pembungkus tombol menu di sidebar Anda memiliki ID ini
-            
+            const tabButtons = document.getElementById("pegawai-tabs");
             if (userData.isGuru) {
               // Jika Guru, tampilkan semua 5 Tab
               document.querySelectorAll(".tab-link-guru").forEach(btn => btn.classList.remove("hidden"));
             } else {
-              // Jika Bukan Guru, sembunyikan tab khusus guru (Hanya tersisa Profil Saya & Kinerja)
+              // Jika Bukan Guru, sembunyikan tab khusus guru
               document.querySelectorAll(".tab-link-guru").forEach(btn => btn.classList.add("hidden"));
             }
 
             // 3. Panggil Server untuk Mengunduh Data Lengkap Pegawai & Keluarga
             loadPegawaiProfileData(userData.username);
           }
-          
-          // Kosongkan isian form setelah berhasil masuk
-          e.target.reset();
-        } else {
-          // Jika username/password salah
-          alert("Gagal Login: " + result.message);
-        }
-      } catch (error) {
-        alert("Terjadi kesalahan koneksi ke server. Pastikan URL Apps Script benar.");
-        console.error(error);
-      } finally {
-        // Kembalikan tombol submit ke bentuk semula
-        btnSubmit.innerHTML = originalText;
-        btnSubmit.disabled = false;
+        });
       }
+      
+      // Kosongkan isian form setelah berhasil masuk
+      e.target.reset();
+
+    } else {
+      // Jika username/password salah, tampilkan pesan gagal yang rapi
+      Swal.fire({
+        icon: 'error',
+        title: 'Login Gagal',
+        text: result.message || 'Username atau password salah.',
+        confirmButtonColor: '#3085d6'
+      });
     }
+
+  } catch (error) {
+    console.error("Login Error:", error);
+    // Jika koneksi server mati atau URL Apps Script salah
+    Swal.fire({
+      icon: 'warning',
+      title: 'Masalah Koneksi',
+      text: 'Terjadi kesalahan koneksi ke server.',
+      confirmButtonColor: '#e0a800'
+    });
+
+  } finally {
+    // Kembalikan tombol submit ke bentuk semula
+    btnSubmit.innerHTML = originalText;
+    btnSubmit.disabled = false;
+  }
+}
 
   //TAMPILKAN LOGIN PAGE
   //====================
@@ -725,15 +762,41 @@
 
     // Fungsi Tambahan: Untuk Tombol Keluar / Logout
     function logout() {
-      const konfirmasi = confirm("Apakah Anda yakin ingin keluar?");
-      if (konfirmasi) {
-        sessionStorage.removeItem("namaAdminAktif");
-        // Kembalikan ke halaman login
-        showPage("login-page");
-        // Hapus nama profil di navbar pegawai
-        document.getElementById("pegawai-navbar-name").innerText = "Nama Pegawai";
+  Swal.fire({
+    title: 'Konfirmasi Keluar',
+    text: 'Apakah Anda yakin ingin keluar dari sistem?',
+    icon: 'question',
+    showCancelButton: true,
+    confirmButtonColor: '#d33', // Warna merah untuk tombol konfirmasi keluar
+    cancelButtonColor: '#3085d6', // Warna biru untuk tombol batal
+    confirmButtonText: 'Ya, Keluar',
+    cancelButtonText: 'Batal'
+  }).then((result) => {
+    // Jika pengguna menekan tombol "Ya, Keluar"
+    if (result.isConfirmed) {
+      sessionStorage.removeItem("namaAdminAktif");
+      
+      // Kembalikan ke halaman login
+      showPage("login-page");
+      
+      // Hapus nama profil di navbar pegawai (opsional, pastikan elemennya ada)
+      const navbarName = document.getElementById("pegawai-navbar-name");
+      if (navbarName) {
+        navbarName.innerText = "Nama Pegawai";
       }
+
+      // Opsional: Tampilkan notifikasi sukses keluar kecil di pojok kanan (toast)
+      Swal.fire({
+        toast: true,
+        position: 'top-end',
+        icon: 'success',
+        title: 'Berhasil keluar',
+        showConfirmButton: false,
+        timer: 1500
+      });
     }
+  });
+}
 
     // ==========================================
     // FUNGSI NAVIGASI TAB & PENCARIAN
@@ -1045,26 +1108,48 @@
         const result = await response.json();
 
         if (result.status === "SUCCESS") {
-          alert("Selamat! Data profil dan foto Anda berhasil diperbarui.");
-          
+      // Notifikasi sukses yang modern & elegan
+      Swal.fire({
+        icon: 'success',
+        title: 'Pembaruan Berhasil!',
+        text: 'Selamat! Data profil dan foto Anda berhasil diperbarui.',
+        timer: 2000, // Menutup otomatis dalam 2 detik
+        showConfirmButton: false,
+        willClose: () => {
           // Reset input file agar kosong kembali
-          if(fileInput) fileInput.value = ""; 
+          if (fileInput) fileInput.value = ""; 
           
           disableEditProfil(); 
           loadPegawaiProfileData(payloadData.USERNAME); // Reload untuk refresh foto baru di layar
-        } else {
-          alert("Gagal menyimpan perubahan: " + result.message);
         }
-
-      } catch (error) {
-        console.error("Error simpanPerubahanProfil:", error);
-        alert("Terjadi kesalahan sistem saat mencoba menyimpan data.");
-      } finally {
-        document.body.style.cursor = 'default';
-        btnSimpan.innerHTML = originalBtnText;
-        btnSimpan.disabled = false;
-      }
+      });
+      
+    } else {
+      // Notifikasi jika server merespons gagal
+      Swal.fire({
+        icon: 'error',
+        title: 'Gagal Menyimpan',
+        text: "Gagal menyimpan perubahan: " + result.message,
+        confirmButtonColor: '#3085d6'
+      });
     }
+
+  } catch (error) {
+    console.error("Error simpanPerubahanProfil:", error);
+    // Notifikasi jika terjadi crash / kesalahan koneksi
+    Swal.fire({
+      icon: 'warning',
+      title: 'Kesalahan Sistem',
+      text: 'Terjadi kesalahan sistem saat mencoba menyimpan data. Silakan coba beberapa saat lagi.',
+      confirmButtonColor: '#e0a800'
+    });
+    
+  } finally {
+    document.body.style.cursor = 'default';
+    btnSimpan.innerHTML = originalBtnText;
+    btnSimpan.disabled = false;
+  }
+}
 
 
     //Fungsi untuk Fitur Cari/Pencarian di dalam Tabel
@@ -1144,9 +1229,14 @@ async function submitCalonPegawai(event) {
       const fileTerpilih = fileInput.files[0];
       
       if (fileTerpilih.size > 2 * 1024 * 1024) {
-        alert("Gagal: Ukuran pas foto terlalu besar! Maksimal 2MB.");
-        return;
-      }
+      Swal.fire({
+        icon: 'error',
+        title: 'File Terlalu Besar',
+        text: 'Gagal: Ukuran pas foto melebihi batas! Maksimal ukuran file adalah 2MB.',
+        confirmButtonColor: '#3085d6'
+      });
+      return; // Tetap hentikan proses pembacaan file
+    }
 
       fotoBlobData = await fileToBase64(fileTerpilih);
       console.log("=== CEK DATA FOTO SEBELUM DIKIRIM ===");
@@ -1204,7 +1294,13 @@ async function submitCalonPegawai(event) {
     const result = await response.json();
     
     if (result.status === "SUCCESS" || result.result === "SUCCESS") {
-      alert("Pendaftaran Berhasil! Data Anda telah masuk ke sistem dan menunggu validasi Admin.");
+      Swal.fire({
+          icon: 'success',
+          title: 'Pendaftaran Berhasil!',
+          text: 'Data pendataan awal Anda telah masuk ke sistem dan kini menunggu proses validasi oleh Admin Yayasan.',
+          confirmButtonColor: '#3085d6',
+          confirmButtonText: 'Selesai'
+        });
       
       // FIX PERBAIKAN: Targetkan langsung ke elemen <form> dengan ID yang benar & Cara Aman
       const formTarget = document.getElementById("form-register-calon");
@@ -1386,8 +1482,8 @@ async function submitCalonPegawai(event) {
     if (tbodyCalon) tbodyCalon.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-slate-500"><i class="fa fa-spinner fa-spin mr-2"></i>Memuat data calon pegawai...</td></tr>`;
     if (tbodyPegawai) tbodyPegawai.innerHTML = `<tr><td colspan="7" class="p-4 text-center text-slate-500"><i class="fa fa-spinner fa-spin mr-2"></i>Memuat data pegawai aktif...</td></tr>`;
     if (tbodyKelola) tbodyKelola.innerHTML = `<tr><td colspan="7" class="p-4 text-center text-slate-500"><i class="fa fa-spinner fa-spin mr-2"></i>Memuat data pegawai aktif...</td></tr>`;
-    if (tbodyKeluar) tbodyKeluar.innerHTML = `<tr><td colspan="7" class="p-4 text-center text-slate-500"><i class="fa fa-spinner fa-spin mr-2"></i>Memuat data pegawai sudah keluar...</td></tr>`;
-    if (tbodyPensiun) tbodyPensiun.innerHTML = `<tr><td colspan="7" class="p-4 text-center text-slate-500"><i class="fa fa-spinner fa-spin mr-2"></i>Memuat data pegawai sudah pensiun...</td></tr>`;
+    if (tbodyKeluar) tbodyKeluar.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-slate-500"><i class="fa fa-spinner fa-spin mr-2"></i>Memuat data pegawai sudah keluar...</td></tr>`;
+    if (tbodyPensiun) tbodyPensiun.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-slate-500"><i class="fa fa-spinner fa-spin mr-2"></i>Memuat data pegawai sudah pensiun...</td></tr>`;
 
     // Ambil Data ke Server
     const response = await fetch(API_URL, {
@@ -1458,11 +1554,15 @@ function renderTablePegawaiAktif(dataPegawai) {
        
     tr.innerHTML = `
             <td class="p-4"><img src="${fotoUrl}" alt="Foto" class="w-10 h-10 object-cover rounded-full border"></td>
-            <td class="p-4 font-semibold text-slate-700">${pegawai["NIPY"] || '-'}</td>
             <td class="p-4 font-semibold text-slate-800">${pegawai["NAMA PEGAWAI"]}</td>
-            <td class="p-4 text-slate-600">${pegawai["JK"] || '-'}</td>
+            <td class="p-4 text-slate-600">${pegawai["MULAI KERJA"] || '-'}</td>
             <td class="p-4 text-slate-600">${pegawai["UNIT KERJA"] || '-'}</td>
+            <td class="p-4 text-slate-600">${pegawai["STATUS"] || '-'}</td>
+            <td class="p-4 text-slate-600">${pegawai["PEKERJAAN"] || '-'}</td>
             <td class="p-4 text-slate-600">${pegawai["JABATAN"] || '-'}</td>
+            <td class="p-4 text-slate-600">${pegawai["PANGKAT"] || '-'}</td>
+            <td class="p-4 text-slate-600">${pegawai["BERKALA TERAKHIR"] || '-'}</td>
+            <td class="p-4 text-slate-600">${pegawai["USIA"] || '-'}</td>
             <td class="p-4">
               <div class="flex items-center justify-center space-x-2">
                 <button onclick="lihatDetailPegawai('${pegawai["USERNAME"]}')" class="px-3 py-1.5 bg-blue-50 text-blue-600 hover:bg-blue-100 rounded-lg text-xs font-semibold transition flex items-center mx-auto shadow-sm">
@@ -1902,10 +2002,10 @@ function bukaModalMutasi(username, defaultStatus) {
   }
 
   // Isi data ringkas ke form modal
-  document.getElementById("m_text_username").innerText = pegawai["USERNAME"] || "-";
-  document.getElementById("m_text_nipy").innerText = pegawai["NIPY"] || "-";
   document.getElementById("m_text_nama").innerText = pegawai["NAMA PEGAWAI"] || "-";
+  document.getElementById("m_text_nipy").innerText = pegawai["NIPY"] || "-";
   document.getElementById("m_text_unit").innerText = pegawai["UNIT KERJA"] || "-";
+  document.getElementById("m_text_username").innerText = pegawai["USERNAME"] || "-";
 
   // Set hidden values untuk payload kirim data nanti
   document.getElementById("m_username").value = pegawai["USERNAME"];
@@ -2008,7 +2108,7 @@ function renderTablePegawaiPensiun(dataPegawai) {
   tbody.innerHTML = "";
 
   if (!dataPegawai || dataPegawai.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="7" class="p-4 text-center text-slate-400">Tidak ada data pegawai aktif di database.</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-slate-400">Tidak ada data pegawai pensiun di database.</td></tr>`;
     return;
   }
 
@@ -2022,15 +2122,12 @@ function renderTablePegawaiPensiun(dataPegawai) {
     tr.innerHTML = `
             <td class="p-4"><img src="${fotoUrl}" alt="Foto" class="w-10 h-10 object-cover rounded-full border"></td>
             <td class="p-4 font-semibold text-slate-800">${pegawai["NAMA PEGAWAI"]}</td>
-            <td class="p-4 text-slate-600">${pegawai["JK"] || '-'}</td>
             <td class="p-4 text-slate-600">${pegawai["STATUS"] || '-'}</td>
             <td class="p-4 text-slate-600">${pegawai["UNIT KERJA"] || '-'}</td>
             <td class="p-4 text-slate-600">${pegawai["JABATAN"] || '-'}</td>
             <td class="p-4">
               <div class="flex items-center justify-center space-x-2">
-                <button onclick="lihatDetailPegawai('${pegawai["NAMA PEGAWAI"]}')" class="px-3 py-1.5 bg-blue-50 text-blue-600 hover:bg-blue-100 rounded-lg text-xs font-semibold transition flex items-center mx-auto shadow-sm">
-                  <i class="fa fa-eye mr-1"></i>Lihat Detail
-                </button>
+                <button onclick="lihatDetailMutasi('pensiun', '${pegawai["USERNAME"]}')" class="px-3 py-1.5 bg-blue-50 text-blue-600 hover:bg-blue-100 rounded-lg text-xs font-semibold transition flex items-center mx-auto shadow-sm"><i class="fa fa-eye mr-1"></i>Lihat Detail</button>
               </div>
       </td>
     `;
@@ -2046,12 +2143,11 @@ function renderTablePegawaiKeluar(dataPegawai) {
   tbody.innerHTML = "";
 
   if (!dataPegawai || dataPegawai.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="7" class="p-4 text-center text-slate-400">Tidak ada data pegawai aktif di database.</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-slate-400">Tidak ada data pegawai keluar di database.</td></tr>`;
     return;
   }
 
   dataPegawai.forEach(pegawai => {
-    // Jalankan logika penanganan foto seperti pola calon pegawai Anda
     const fotoUrl = pegawai["URL FOTO"] || "https://via.placeholder.com/150/1e40af/ffffff?text=FOTO";
     
     const tr = document.createElement("tr");
@@ -2060,15 +2156,12 @@ function renderTablePegawaiKeluar(dataPegawai) {
     tr.innerHTML = `
             <td class="p-4"><img src="${fotoUrl}" alt="Foto" class="w-10 h-10 object-cover rounded-full border"></td>
             <td class="p-4 font-semibold text-slate-800">${pegawai["NAMA PEGAWAI"]}</td>
-            <td class="p-4 text-slate-600">${pegawai["JK"] || '-'}</td>
             <td class="p-4 text-slate-600">${pegawai["STATUS"] || '-'}</td>
             <td class="p-4 text-slate-600">${pegawai["UNIT KERJA"] || '-'}</td>
             <td class="p-4 text-slate-600">${pegawai["JABATAN"] || '-'}</td>
             <td class="p-4">
               <div class="flex items-center justify-center space-x-2">
-                <button onclick="lihatDetailPegawai('${pegawai["NAMA PEGAWAI"]}')" class="px-3 py-1.5 bg-blue-50 text-blue-600 hover:bg-blue-100 rounded-lg text-xs font-semibold transition flex items-center mx-auto shadow-sm">
-                  <i class="fa fa-eye mr-1"></i>Lihat Detail
-                </button>
+                <button onclick="lihatDetailMutasi('keluar', '${pegawai["USERNAME"]}')" class="px-3 py-1.5 bg-blue-50 text-blue-600 hover:bg-blue-100 rounded-lg text-xs font-semibold transition flex items-center mx-auto shadow-sm"><i class="fa fa-eye mr-1"></i>Lihat Detail</button>
               </div>
       </td>
     `;
@@ -2076,61 +2169,142 @@ function renderTablePegawaiKeluar(dataPegawai) {
   });
 }
 
-
 //FUNGSI MELIHAT DATA DETAIL PENSIUNAN/KELUAR
 //=============================================
 //=============================================
-function lihatDetailMutasi(jenis, namaTarget) {
-  // 1. Ambil data dari array globalData sesuai tab yang diklik
-  let arraySumber = (jenis === 'pensiun') ? globalData.pensiun : globalData.keluar;
+// FUNGSI DETAIL KHUSUS PEGAWAI PENSIUN / KELUAR
+// ========================================================
+function lihatDetailMutasi(jenis, username) {
+  // 1. Tentukan sumber array data berdasarkan jenis tab
+  const arraySumber = (jenis === 'pensiun') ? globalData.pensiun : globalData.keluar;
   
-  // Jika di folder mutasi kosong, cari di database induk pegawai sebagai cadangan
-  if (!arraySumber || arraySumber.length === 0) {
-    arraySumber = globalData.pegawai || [];
+  if (!arraySumber) {
+    alert("Kumpulan data mutasi tidak ditemukan.");
+    return;
   }
 
-  // 2. Cari data berdasarkan NAMA PEGAWAI
-  const mutasi = arraySumber.find(p => p["NAMA PEGAWAI"] === namaTarget);
-  
-  if (!mutasi) {
+  // 2. Cari data pegawai berdasarkan USERNAME yang baru saja kita simpan
+  const pegawai = arraySumber.find(p => p.USERNAME === username);
+  if (!pegawai) {
     alert("Gagal memuat rincian: Data pegawai tidak ditemukan.");
     return;
   }
 
-  // 3. Mapping data agar formatnya COCOK dengan Form Modal Asli Anda
-  // Menyamakan properti objek (huruf besar/kecil) agar form asli Anda bisa membaca isinya
-  const detailPegawai = {
-    ...mutasi, // Menyalin seluruh data asli sheet (termasuk kolom-kolomnya)
-    "NAMA PEGAWAI": mutasi["NAMA PEGAWAI"],
-    "STATUS": mutasi["STATUS"] || (jenis === 'pensiun' ? 'Pensiun' : 'Keluar'),
-    "UNIT KERJA": mutasi["UNIT KERJA"] || "-",
-    "JABATAN": mutasi["JABATAN"] || mutasi["PEKERJAAN"] || "-"
-  };
+  const modalBody = document.getElementById("modal-pegawai-body");
+  if (!modalBody) return;
 
-  // 4. PAKSA BUKA MODAL FORM ASLI ANDA
-  // Cek apakah fungsi modal detail pegawai aktif Anda bernama 'bukaModalDetailPegawai' atau 'tampilkanDetail'
-  if (typeof bukaModalDetailPegawai === "function") {
-    bukaModalDetailPegawai(detailPegawai);
-  } else if (typeof tampilkanDetailPegawai === "function") {
-    tampilkanDetailPegawai(detailPegawai);
-  } else if (typeof modalDetail === "function") {
-    modalDetail(detailPegawai);
+  // 3. Gambar ulang kerangka visual grid (Disamakan dengan pola detail aktif Anda)
+  let htmlContent = `
+    <div class="flex items-center space-x-4 p-4 bg-slate-100 rounded-xl mb-4 border border-slate-200">
+      <img src="${pegawai["URL FOTO"] || 'https://via.placeholder.com/150/1e40af/ffffff?text=FOTO'}" class="w-16 h-16 object-cover rounded-full border-2 border-slate-400">
+      <div>
+        <h4 class="text-lg font-bold text-slate-800">${pegawai["NAMA PEGAWAI"]}</h4>
+        <p class="text-sm text-slate-500">NIPY: ${pegawai["NIPY"] || '-'} | Jabatan: ${pegawai["JABATAN"] || '-'}</p>
+      </div>
+    </div>
+    
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm mb-4">
+      <div><p class="text-xs text-slate-400 font-medium">Agama</p><p class="font-semibold">${pegawai["AGAMA"] || '-'}</p></div>
+      <div><p class="text-xs text-slate-400 font-medium">Jenis Kelamin</p><p class="font-semibold">${pegawai["JK"] === 'L' ? 'Laki-Laki' : 'Perempuan'}</p></div>
+      <div><p class="text-xs text-slate-400 font-medium">Tempat, Tanggal Lahir</p><p class="font-semibold">${pegawai["TEMPAT LAHIR"] || '-'}, ${pegawai["TANGGAL LAHIR"] || '-'}</p></div>
+      <div><p class="text-xs text-slate-400 font-medium">Usia</p><p class="font-semibold">${pegawai["USIA"] || '-'}</p></div>
+      <div><p class="text-xs text-slate-400 font-medium">No HP / WA</p><p class="font-semibold">${pegawai["NO HP"] || pegawai["NO HP / WA"] || '-'}</p></div>
+      <div><p class="text-xs text-slate-400 font-medium">Pendidikan Terakhir</p><p class="font-semibold">${pegawai["PENDIDIKAN"] || pegawai["PENDIDIKAN TERAKHIR"] || '-'}</p></div>
+      <div><p class="text-xs text-slate-400 font-medium">Unit Kerja / Pekerjaan</p><p class="font-semibold">${pegawai["UNIT KERJA"] || '-'} / ${pegawai["PEKERJAAN"] || '-'}</p></div>
+      <div><p class="text-xs text-slate-400 font-medium">Mulai Kerja</p><p class="font-semibold">${pegawai["MULAI KERJA"] || '-'}</p></div>
+      <div><p class="text-xs text-slate-400 font-medium">Pangkat / Golongan</p><p class="font-semibold">${pegawai["PANGKAT"] || '-'}</p></div>
+      <div><p class="text-xs text-slate-400 font-medium">Alamat Domisili</p><p class="font-semibold">${pegawai["ALAMAT"] || '-'}</p></div>
+      
+      <div class="sm:col-span-2 p-3 bg-amber-50 text-amber-900 border border-amber-200 rounded-lg">
+        <p class="text-xs text-amber-700 font-bold uppercase"><i class="fa fa-info-circle mr-1"></i> Informasi Mutasi Terakhir</p>
+        <p class="font-medium text-sm mt-1">${pegawai["STATUS"] || '-'}</p>
+      </div>
+    </div>
+  `;
+
+  // 4. LANGSUNG EKSTRAK DATA KELUARGA DARI BARIS YANG SAMA
+  // Karena data keluarga sudah nempel di baris ini, kita tidak perlu mencari ke Sheet Keluarga lagi!
+  const namaPasangan = pegawai["NAMA SUAMI / ISTRI"] || pegawai["NAMA PASANGAN"];
+  
+  if (namaPasangan && namaPasangan !== "-") {
+    // Ambil data pasangan
+    const tglLahirPasangan = pegawai["TANGGAL LAHIR PASANGAN"] || pegawai["TGL LAHIR PASANGAN"] || "-";
+    const usiaPasangan = pegawai["USIA PASANGAN"] || "-";
+
+    htmlContent += `
+      <div class="mt-4 pt-4 border-t border-slate-200">
+        <h5 class="text-sm font-bold text-blue-700 mb-2"><i class="fa fa-users mr-1"></i> Data Hubungan Keluarga (Arsip)</h5>
+        <div class="bg-slate-50 p-3 rounded-lg text-sm space-y-3 border">
+          
+          <div class="border-b pb-2 last:border-0 last:pb-0">
+            <p class="text-xs text-slate-400 font-medium">Nama Suami/Istri</p>
+            <p class="font-semibold text-slate-700">
+              ${namaPasangan} 
+              <span class="text-slate-500 font-normal">
+                | Lahir: ${tglLahirPasangan} | Usia: ${usiaPasangan}
+              </span>
+            </p>
+          </div>
+          
+          ${pegawai["NAMA ANAK KESATU"] ? `
+          <div class="border-b pb-2 last:border-0 last:pb-0">
+            <p class="text-xs text-slate-400 font-medium">Nama Anak Kesatu</p>
+            <p class="font-semibold text-slate-700">
+              ${pegawai["NAMA ANAK KESATU"]}
+              <span class="text-slate-500 font-normal">
+                | Lahir: ${pegawai["TANGGAL LAHIR ANAK KESATU"] || "-"} | Usia: ${pegawai["USIA ANAK KESATU"] || "-"}
+              </span>
+            </p>
+          </div>` : ''}
+          
+          ${pegawai["NAMA ANAK KEDUA"] ? `
+          <div class="border-b pb-2 last:border-0 last:pb-0">
+            <p class="text-xs text-slate-400 font-medium">Nama Anak Kedua</p>
+            <p class="font-semibold text-slate-700">
+              ${pegawai["NAMA ANAK KEDUA"]}
+              <span class="text-slate-500 font-normal">
+                | Lahir: ${pegawai["TANGGAL LAHIR ANAK KEDUA"] || "-"} | Usia: ${pegawai["USIA ANAK KEDUA"] || "-"}
+              </span>
+            </p>
+          </div>` : ''}
+          
+          ${pegawai["NAMA ANAK KETIGA"] ? `
+          <div class="border-b pb-2 last:border-0 last:pb-0">
+            <p class="text-xs text-slate-400 font-medium">Nama Anak Ketiga</p>
+            <p class="font-semibold text-slate-700">
+              ${pegawai["NAMA ANAK KETIGA"]}
+              <span class="text-slate-500 font-normal">
+                | Lahir: ${pegawai["TANGGAL LAHIR ANAK KETIGA"] || "-"} | Usia: ${pegawai["USIA ANAK KETIGA"] || "-"}
+              </span>
+            </p>
+          </div>` : ''}
+          
+          ${pegawai["NAMA ANAK KEEMPAT"] ? `
+          <div class="border-b pb-2 last:border-0 last:pb-0">
+            <p class="text-xs text-slate-400 font-medium">Nama Anak Keempat</p>
+            <p class="font-semibold text-slate-700">
+              ${pegawai["NAMA ANAK KEEMPAT"]}
+              <span class="text-slate-500 font-normal">
+                | Lahir: ${pegawai["TANGGAL LAHIR ANAK KEEMPAT"] || "-"} | Usia: ${pegawai["USIA ANAK KEEMPAT"] || "-"}
+              </span>
+            </p>
+          </div>` : ''}
+
+        </div>
+      </div>
+    `;
   } else {
-    // Jika semua nama fungsi di atas gagal, kita panggil fungsi detail pegawai aktif Anda 
-    // dengan mengirimkan objek mutasi ini secara langsung
-    if (typeof lihatDetailPegawai === "function") {
-      lihatDetailPegawai(detailPegawai); 
-    } else {
-      // Jika masih gagal, tampilkan log objek untuk kita periksa nama fungsi aslinya
-      console.log("Fungsi modal tidak terdeteksi. Data objek:", detailPegawai);
-      alert(`Detail Pegawai (Fallback):\nNama: ${detailPegawai["NAMA PEGAWAI"]}\nUnit: ${detailPegawai["UNIT KERJA"]}`);
-    }
+    htmlContent += `
+      <div class="mt-4 pt-4 border-t border-slate-200">
+        <p class="text-xs text-slate-400 italic bg-slate-50 p-2 rounded border">Tidak ada rincian data keluarga yang terekam pada arsip mutasi ini.</p>
+      </div>
+    `;
   }
+
+  // 5. Tampilkan Modal Menggunakan ID Modal Utama Anda
+  modalBody.innerHTML = htmlContent;
+  document.getElementById("modal-detail-pegawai").classList.remove("hidden");
 }
-
-
-
-
 
 
 // PERBARUI DATA OLEH ADMIN
@@ -2163,20 +2337,7 @@ function refreshDataAdmin() {
   }, 300); // Cek setiap 0,3 detik sekali
 }
 
-// =========================================================
-// SELIPKAN KODE PENDAFTARAN SERVICE WORKER (PWA) DI SINI
-// =========================================================
-        if ('serviceWorker' in navigator) {
-          window.addEventListener('load', function() {
-            navigator.serviceWorker.register('/sw.js')
-              .then(function(registration) {
-                console.log('ServiceWorker sukses terdaftar di Vercel:', registration.scope);
-              }, function(err) {
-                console.error('Pendaftaran ServiceWorker gagal:', err);
-              });
-          });
-        }
-// =========================================================
+
 
 
 
@@ -2199,7 +2360,7 @@ function refreshDataAdmin() {
         <form id="form-edit-pegawai-admin" onsubmit="simpanEditPegawaiAdmin(event)" class="space-y-6">
           
           <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
-            <h3 class="text-lg font-bold text-slate-700 mb-4 flex items-center border-b pb-2"><i class="fa fa-user text-blue-600 mr-2"></i> Kategori 1: Data Diri</h3>
+            <h3 class="text-lg font-bold text-slate-700 mb-4 flex items-center border-b pb-2"><i class="fa fa-user text-blue-600 mr-2"></i> Data Diri</h3>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
               
               <div class="md:col-span-1 flex flex-col items-center justify-center p-4 bg-slate-50 rounded-xl border border-dashed">
@@ -2223,7 +2384,7 @@ function refreshDataAdmin() {
           </div>
 
           <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
-            <h3 class="text-lg font-bold text-slate-700 mb-4 flex items-center border-b pb-2"><i class="fa fa-briefcase text-blue-600 mr-2"></i> Kategori 2: Data Kepegawaian</h3>
+            <h3 class="text-lg font-bold text-slate-700 mb-4 flex items-center border-b pb-2"><i class="fa fa-briefcase text-blue-600 mr-2"></i> Data Kepegawaian</h3>
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
               <div><label class="block text-xs font-semibold text-slate-500 mb-1">NIPY</label><input type="text" id="e_nipy" class="w-full p-2.5 border rounded-lg bg-white outline-none focus:ring-2 focus:ring-blue-500 text-sm font-medium" placeholder="Masukkan NIPY..."></div>
               <div><label class="block text-xs font-semibold text-slate-500 mb-1">Jabatan Resmi</label><input type="text" id="e_jabatan" class="w-full p-2.5 border rounded-lg bg-white outline-none focus:ring-2 focus:ring-blue-500 text-sm font-medium"></div>
@@ -2238,7 +2399,7 @@ function refreshDataAdmin() {
           </div>
 
           <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
-            <h3 class="text-lg font-bold text-slate-700 mb-4 flex items-center border-b pb-2"><i class="fa fa-graduation-cap text-blue-600 mr-2"></i> Kategori 3: Pendidikan</h3>
+            <h3 class="text-lg font-bold text-slate-700 mb-4 flex items-center border-b pb-2"><i class="fa fa-graduation-cap text-blue-600 mr-2"></i> Pendidikan</h3>
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
               <div><label class="block text-xs font-semibold text-slate-500 mb-1">Pendidikan Terakhir</label><input type="text" id="e_pendidikan" class="w-full p-2.5 border rounded-lg bg-white outline-none focus:ring-2 focus:ring-blue-500 text-sm font-medium"></div>
               <div><label class="block text-xs font-semibold text-slate-500 mb-1">Jurusan / Prodi</label><input type="text" id="e_jurusan" class="w-full p-2.5 border rounded-lg bg-white outline-none focus:ring-2 focus:ring-blue-500 text-sm font-medium"></div>
@@ -2250,7 +2411,7 @@ function refreshDataAdmin() {
 
           <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
   <h3 class="text-lg font-bold text-slate-700 mb-4 flex items-center border-b pb-2">
-    <i class="fa fa-heart text-blue-600 mr-2"></i> Kategori 4: Data Anggota Keluarga
+    <i class="fa fa-heart text-blue-600 mr-2"></i> Data Anggota Keluarga
   </h3>
   
   <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-6">
@@ -2321,7 +2482,7 @@ function refreshDataAdmin() {
 </div>
 
 <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
-  <h3 class="text-lg font-bold text-slate-700 mb-4 flex items-center border-b pb-2"><i class="fa fa-key text-blue-600 mr-2"></i> Kategori 5: Informasi Akun Sistem</h3>
+  <h3 class="text-lg font-bold text-slate-700 mb-4 flex items-center border-b pb-2"><i class="fa fa-key text-blue-600 mr-2"></i> Informasi Akun Sistem</h3>
   <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
     <div><label class="block text-xs font-semibold text-slate-500 mb-1">Username Sistem</label><input type="text" id="e_username" readonly class="w-full p-2.5 border rounded-lg bg-slate-100 outline-none text-sm font-medium text-slate-500 cursor-not-allowed"></div>
     <div><label class="block text-xs font-semibold text-slate-500 mb-1">Ubah Kata Sandi / Password</label><input type="password" id="e_password" class="w-full p-2.5 border rounded-lg bg-white outline-none focus:ring-2 focus:ring-blue-500 text-sm font-medium" placeholder="Masukkan password baru jika ingin diganti..."></div>
@@ -2387,10 +2548,10 @@ function refreshDataAdmin() {
       <div class="bg-gray-50 p-3 rounded mb-4 text-sm border">
         <p class="font-semibold text-gray-700 mb-2">Detil Pegawai:</p>
         <div class="grid grid-cols-3 gap-1">
-          <span class="text-gray-500">Username</span><span class="col-span-2 font-medium">: <span id="m_text_username">-</span></span>
-          <span class="text-gray-500">NIPY</span><span class="col-span-2 font-medium">: <span id="m_text_nipy">-</span></span>
           <span class="text-gray-500">Nama</span><span class="col-span-2 font-medium">: <span id="m_text_nama">-</span></span>
+          <span class="text-gray-500">NIPY</span><span class="col-span-2 font-medium">: <span id="m_text_nipy">-</span></span>
           <span class="text-gray-500">Unit Kerja</span><span class="col-span-2 font-medium">: <span id="m_text_unit">-</span></span>
+          <span class="text-gray-500">Username</span><span class="col-span-2 font-medium">: <span id="m_text_username">-</span></span>
         </div>
         <input type="hidden" id="m_username">
         <input type="hidden" id="m_nama">
