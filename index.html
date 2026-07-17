@@ -77,19 +77,13 @@
               <div>
                 <label class="block text-sm font-medium mb-1">Jenis Kelamin</label>
                 <select id="calon_jk" required class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
-                  <option value="" disabled selected>Pilih...</option>
-                  <option value="L">Laki-Laki</option>
-                  <option value="P">Perempuan</option>
+                  <option value="" disabled selected>Pilih...</option><option value="L">Laki-Laki</option><option value="P">Perempuan</option>
                 </select>
               </div>
               <div>
                 <label class="block text-sm font-medium mb-1">Agama</label>
                 <select id="calon_agama" required class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
-                  <option value="Katolik">Katolik</option>
-                  <option value="Kristen">Kristen</option>
-                  <option value="Islam">Islam</option>
-                  <option value="Hindu">Hindu</option>
-                  <option value="Buddha">Buddha</option>
+                  <option value="Katolik">Katolik</option><option value="Kristen">Kristen Protestan</option><option value="Islam">Islam</option><option value="Hindu">Hindu</option><option value="Buddha">Buddha</option><option value="Konghucu">Konghucu</option>
                 </select>
               </div>
             </div>
@@ -267,11 +261,35 @@
             <i class="fa fa-venus text-pink-200 text-4xl"></i>
           </div>
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <div class="bg-white p-4 rounded-xl shadow-sm"><h4 class="text-sm font-semibold text-center mb-2">Distribusi Status</h4><canvas id="chartStatus"></canvas></div>
-          <div class="bg-white p-4 rounded-xl shadow-sm"><h4 class="text-sm font-semibold text-center mb-2">Unit Kerja</h4><canvas id="chartUnit"></canvas></div>
-          <div class="bg-white p-4 rounded-xl shadow-sm"><h4 class="text-sm font-semibold text-center mb-2">Pekerjaan</h4><canvas id="chartPekerjaan"></canvas></div>
-        </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
+                <div class="bg-white p-4 rounded-xl shadow-sm h-72 flex flex-col justify-between">
+                  <h4 class="text-sm font-semibold text-center mb-2">Status</h4>
+                  <div class="relative w-full h-full flex items-center justify-center"><canvas id="chartStatus"></canvas></div>
+                </div>
+                <div class="bg-white p-4 rounded-xl shadow-sm h-72 flex flex-col justify-between">
+                  <h4 class="text-sm font-semibold text-center mb-2">Unit Kerja</h4>
+                  <div class="relative w-full h-full flex items-center justify-center"><canvas id="chartUnit"></canvas></div>
+                </div>
+                <div class="bg-white p-4 rounded-xl shadow-sm h-72 flex flex-col justify-between">
+                  <h4 class="text-sm font-semibold text-center mb-2">Pekerjaan</h4>
+                  <div class="relative w-full h-full flex items-center justify-center"><canvas id="chartPekerjaan"></canvas></div>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="bg-white p-4 rounded-xl shadow-sm h-72 flex flex-col justify-between">
+                  <h4 class="text-sm font-semibold text-center mb-2">Agama</h4>
+                  <div class="relative w-full h-full flex items-center justify-center"><canvas id="chartAgama"></canvas></div>
+                </div>
+                <div class="bg-white p-4 rounded-xl shadow-sm h-72 flex flex-col justify-between">
+                  <h4 class="text-sm font-semibold text-center mb-2">Status K/TK</h4>
+                  <div class="relative w-full h-full flex items-center justify-center"><canvas id="chartKTK"></canvas></div>
+                </div>
+                <div class="bg-white p-4 rounded-xl shadow-sm h-72 flex flex-col justify-between">
+                  <h4 class="text-sm font-semibold text-center mb-2">Pendidikan</h4>
+                  <div class="relative w-full h-full flex items-center justify-center"><canvas id="chartPendidikan"></canvas></div>
+                </div>
+              </div>
       </div>
 
 
@@ -280,6 +298,7 @@
       <div id="tab-data-pegawai" class="admin-tab-content hidden">
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4">
           <h2 class="text-2xl font-bold">Data Pegawai Aktif</h2>
+          <button onclick="refreshDataAdmin()" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-semibold transition flex items-center shadow-sm border border-slate-200"><i class="fa fa-sync-alt mr-1.5" id="icon-refresh"></i> Perbarui Data</button>
           <input type="text" onkeyup="searchTable('table-pegawai-rows', this.value)" class="mt-2 sm:mt-0 px-4 py-2 border rounded-lg text-sm w-full sm:w-64 outline-none focus:ring-2 focus:ring-blue-500" placeholder="Cari Pegawai...">
         </div>
         <div class="bg-white rounded-xl shadow-sm overflow-x-auto">
@@ -287,17 +306,9 @@
           <table class="w-full text-left text-sm border-collapse">
             <thead>
               <tr class="bg-slate-100 border-b text-slate-600">
-                <th class="p-4">Foto</th>                
-                <th class="p-4">Nama Pegawai</th>                
-                <th class="p-4">Mulai Kerja</th>
-                <th class="p-4">Unit Kerja</th>
-                <th class="p-4">Status</th>
-                <th class="p-4">Tugas</th>
-                <th class="p-4">Jabatan</th>
-                <th class="p-4">Pangkat</th>
-                <th class="p-4">Berkala Terakhir</th>
-                <th class="p-4">Usia</th>
-                <th class="p-4 text-center">Aksi</th>
+                <th class="p-4">Foto</th><th class="p-4">Nama Pegawai</th><th class="p-4">Mulai Kerja</th><th class="p-4">Masa Dinas</th>
+                <th class="p-4">Unit Kerja</th><th class="p-4">Status</th><th class="p-4">Tugas</th><th class="p-4">Jabatan</th>
+                <th class="p-4">Pangkat</th><th class="p-4">Berkala Terakhir</th><th class="p-4">Usia</th><th class="p-4 text-center">Aksi</th>
               </tr>
             </thead>
             <tbody id="table-pegawai-rows"></tbody>
@@ -317,13 +328,7 @@
           <table class="w-full text-left text-sm border-collapse">
             <thead>
               <tr class="bg-slate-100 border-b text-slate-600">
-                <th class="p-4">Foto</th>
-                <th class="p-4">NIPY</th>
-                <th class="p-4">Nama Pegawai</th>
-                <th class="p-4">JK</th>
-                <th class="p-4">Unit Kerja</th>
-                <th class="p-4">Jabatan</th>
-                <th class="p-4 text-center">Aksi</th>
+                <th class="p-4">Foto</th><th class="p-4">NIPY</th><th class="p-4">Nama Pegawai</th><th class="p-4">JK</th><th class="p-4">Unit Kerja</th><th class="p-4">Jabatan</th><th class="p-4 text-center">Aksi</th>
               </tr>
             </thead>
             <tbody id="table-kelola-rows"></tbody>
@@ -342,12 +347,7 @@
           <table class="w-full text-left text-sm border-collapse">
             <thead>
               <tr class="bg-slate-100 border-b text-slate-600">
-                <th class="p-4">Foto</th>
-                <th class="p-4">Nama Pegawai</th>
-                <th class="p-4">Status</th>
-                <th class="p-4">Unit Kerja</th>
-                <th class="p-4">Pekerjaan</th>
-                <th class="p-4 text-center">Aksi</th>
+                <th class="p-4">Foto</th><th class="p-4">Nama Pegawai</th><th class="p-4">Status</th><th class="p-4">Unit Kerja</th><th class="p-4">Pekerjaan</th><th class="p-4 text-center">Aksi</th>
               </tr>
             </thead>
             <tbody id="table-calon-rows">
@@ -440,7 +440,7 @@
       <div class="flex justify-between items-center border-b pb-4">
         <h2 class="text-2xl font-bold text-slate-800">Profil Saya</h2>
         <button onclick="enableEditProfil()" id="btn-edit-profil" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium transition flex items-center shadow-sm">
-          <i class="fa fa-edit mr-2"></i> Edit Data Mandiri
+          <i class="fa fa-edit mr-2"></i> Edit Mandiri
         </button>
       </div>
 
@@ -467,7 +467,8 @@
               <div><label class="block text-xs font-semibold text-slate-500 mb-1">Tanggal Lahir</label><input type="date" id="p_tgl_lahir" disabled class="w-full p-2.5 border rounded-lg bg-slate-50 outline-none text-sm font-medium"></div>
               <div><label class="block text-xs font-semibold text-slate-500 mb-1">Usia</label><input type="text" id="p_usia" disabled class="w-full p-2.5 border rounded-lg bg-slate-50 outline-none text-sm font-medium"></div>
               <div><label class="block text-xs font-semibold text-slate-500 mb-1">Jenis Kelamin</label><select id="p_jk" disabled class="w-full p-2.5 border rounded-lg bg-slate-50 outline-none text-sm font-medium"><option value="L">Laki-Laki</option><option value="P">Perempuan</option></select></div>
-              <div><label class="block text-xs font-semibold text-slate-500 mb-1">Agama</label><input type="text" id="p_agama" disabled class="w-full p-2.5 border rounded-lg bg-slate-50 outline-none text-sm font-medium"></div>
+              <div><label class="block text-xs font-semibold text-slate-500 mb-1">Agama</label><select id="p_agama" disabled class="w-full p-2.5 border rounded-lg bg-slate-50 outline-none text-sm font-medium">
+                  <option value="Katolik">Katolik</option><option value="Kristen">Kristen Protestan</option><option value="Islam">Islam</option><option value="Hindu">Hindu</option><option value="Buddha">Buddha</option></select></div>
               <div><label class="block text-xs font-semibold text-slate-500 mb-1">No HP / WA (+62)</label><input type="text" id="p_nohp" disabled class="w-full p-2.5 border rounded-lg bg-slate-50 outline-none text-sm font-medium"></div>
               <div><label class="block text-xs font-semibold text-slate-500 mb-1">Alamat Domisili</label><textarea id="p_alamat" disabled rows="2" class="w-full p-2.5 border rounded-lg bg-slate-50 outline-none text-sm font-medium"></textarea></div>
             </div>
@@ -478,12 +479,64 @@
           <h3 class="text-lg font-bold text-slate-700 mb-4 flex items-center border-b pb-2"><i class="fa fa-briefcase text-blue-600 mr-2"></i> Data Kepegawaian</h3>
           <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
             <div><label class="block text-xs font-semibold text-slate-500 mb-1">NIPY</label><input type="text" id="p_nipy" disabled class="w-full p-2.5 border rounded-lg bg-slate-100 font-bold text-blue-700 outline-none text-sm"></div>
-            <div><label class="block text-xs font-semibold text-slate-500 mb-1">Jabatan Resmi</label><input type="text" id="p_jabatan" disabled class="w-full p-2.5 border rounded-lg bg-slate-50 outline-none text-sm font-medium"></div>
-            <div><label class="block text-xs font-semibold text-slate-500 mb-1">Tugas/Pekerjaan</label><input type="text" id="p_pekerjaan" disabled class="w-full p-2.5 border rounded-lg bg-slate-50 outline-none text-sm font-medium"></div>
-            <div><label class="block text-xs font-semibold text-slate-500 mb-1">Unit Kerja</label><input type="text" id="p_unit" disabled class="w-full p-2.5 border rounded-lg bg-slate-50 outline-none text-sm font-medium"></div>
-            <div><label class="block text-xs font-semibold text-slate-500 mb-1">Status Kepegawaian</label><input type="text" id="p_status" disabled class="w-full p-2.5 border rounded-lg bg-slate-50 outline-none text-sm font-medium"></div>
+            <div><label class="block text-xs font-semibold text-slate-500 mb-1">Jabatan Resmi</label><select id="p_jabatan" disabled class="w-full p-2.5 border rounded-lg bg-slate-50 outline-none text-sm font-medium">
+              <option value="Guru">Guru</option>
+              <option value="Tenaga Kependidikan">Tenaga Kependidikan</option>
+              <option value="Staf Yayasan">Staf Yayasan</option>
+              <option value="Wakil Kepala Sekolah">Wakil Kepala Sekolah</option>
+              <option value="Kepala Sekolah">Kepala Sekolah</option>
+              <option value="Kasubbid">Kepala Sub Bidang</option>
+              <option value="Kabid">Kepala Bidang</option>
+              <option value="Ketua Yayasan">Ketua Yayasan</option>
+            </select></div>
+
+            <div><label class="block text-xs font-semibold text-slate-500 mb-1">Tugas/Pekerjaan</label><select id="p_pekerjaan" disabled class="w-full p-2.5 border rounded-lg bg-slate-50 outline-none text-sm font-medium">
+              <option value="Guru Kelas">Guru Kelas</option>
+              <option value="Guru Mapel">Guru Mapel</option>
+              <option value="Guru BK">Guru BK</option>
+              <option value="Guru PK">Guru PK</option>
+              <option value="TU Keuangan">TU Keuangan</option>
+              <option value="TU Administrasi">TU Administrasi</option>
+              <option value="Tenaga Perpustakaan">Tenaga Perpustakaan</option>
+              <option value="Penjaga Sekolah">Penjaga Sekolah</option>
+              <option value="Pramubakti">Pramubakti</option>
+              <option value="Pengemudi">Pengemudi</option>
+              <option value="Juru Masak">Juru Masak</option>
+              <option value="Petugas Kantin">Petugas Kantin</option>
+              <option value="Petugas Logistik">Petugas Logistik</option>
+              <option value="Pengasuh TPA">Pengasuh TPA</option>
+              <option value="Pegawai Kantor YLM">Pegawai Kantor YLM</option>            
+            </select></div>
+  
+            <div><label class="block text-xs font-semibold text-slate-500 mb-1">Unit Kerja</label><select id="p_unit" disabled class="w-full p-2.5 border rounded-lg bg-slate-50 outline-none text-sm font-medium">
+              <option value="TK Xaverius 1 BL ">TK Xaverius 1 Bandar Lampung</option>
+              <option value="TK Xaverius Metro">TK Xaverius Metro</option>
+              <option value="TK Xaverius Ngestirahayu">TK Xaverius Ngestirahayu</option>
+              <option value="TK Xaverius Seputih Banyak">TK Xaverius Seputih Banyak</option>
+              <option value="PAUD Miryam Tulang Bawang">PAUD Miryam Tulang Bawang</option>
+              <option value="TK Xaverius 1 PLG">TK Xaverius 1 Palembang</option>
+              <option value="TK Miryam TS">TK Miryam Tenggarong Seberang</option>
+              <option value="SD Xaverius Metro">SD Xaverius Metro</option>
+              <option value="SD Xaverius 1 BL">SD Xaverius 1 Bandar Lampung</option>
+              <option value="SD Xaverius 1 PLG ">SD Xaverius 1 Palembang </option>
+              <option value="SMP Xaverius 1 BL">SMP Xaverius 1 Bandar Lampung</option>
+              <option value="SMP Xaverius 6 PLG">SMP Xaverius 6 Palembang</option>
+              <option value="Kantor YYLM">Kantor YLM</option>            
+            </select></div>
+            <div><label class="block text-xs font-semibold text-slate-500 mb-1">Status Kepegawaian</label><select id="p_status" disabled class="w-full p-2.5 border rounded-lg bg-slate-50 outline-none text-sm font-medium">
+              <option value="PTY">Pegawai Tetap Yayasan</option>
+              <option value="CPT">Calon Pegawai Tetap</option>
+              <option value="PPT Kontrak">Pegawai Tidak Tetap Kontrak</option>
+              <option value="PPT Honor">Pegawai Tidak Tetap Honor</option>
+              <option value="HS">Pegawai Honor Sekolah</option></select></div>
             <div><label class="block text-xs font-semibold text-slate-500 mb-1">Mulai Kerja</label><input type="date" id="p_mulai_kerja" disabled class="w-full p-2.5 border rounded-lg bg-slate-50 outline-none text-sm font-medium"></div>
-            <div><label class="block text-xs font-semibold text-slate-500 mb-1">Pangkat / Golongan</label><input type="text" id="p_pangkat" disabled class="w-full p-2.5 border rounded-lg bg-slate-50 outline-none text-sm font-medium"></div>
+            <div><label class="block text-xs font-semibold text-slate-500 mb-1">Masa Dinas</label><input type="text" id="p_masa_dinas" disabled class="w-full p-2.5 border rounded-lg bg-slate-50 outline-none text-sm font-medium"></div>
+            <div><label class="block text-xs font-semibold text-slate-500 mb-1">Pangkat / Golongan</label><select id="p_pangkat" disabled class="w-full p-2.5 border rounded-lg bg-slate-50 outline-none text-sm font-medium">
+              <option value="II A">II/A</option><option value="II B">II/B</option><option value="II C">II/C</option><option value="II D">II/D</option>
+              <option value="III A">III/A</option><option value="III B">III/B</option><option value="III C">III/C</option><option value="III D">III/D</option>
+              <option value="IV A">IV/A</option><option value="IV B">IV/B</option><option value="IV C">IV/C</option><option value="IV D">IV/D</option>
+              </select></div>
+            
             <div><label class="block text-xs font-semibold text-slate-500 mb-1">TMT Pangkat</label><input type="date" id="p_tmt_pangkat" disabled class="w-full p-2.5 border rounded-lg bg-slate-50 outline-none text-sm font-medium"></div>
             <div><label class="block text-xs font-semibold text-slate-500 mb-1">Berkala Terakhir</label><input type="date" id="p_berkala_terakhir" disabled class="w-full p-2.5 border rounded-lg bg-slate-50 outline-none text-sm font-medium"></div>
           </div>
@@ -506,7 +559,7 @@
           </h3>
           
           <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-6">
-            <div><label class="block text-xs font-semibold text-slate-500 mb-1">Status Pernikahan (K/TK)</label><input type="text" id="p_ktk" disabled class="w-full p-2.5 border rounded-lg bg-slate-50 outline-none text-sm font-medium"></div>
+            <div><label class="block text-xs font-semibold text-slate-500 mb-1">Status Pernikahan</label><select id="p_ktk" disabled class="w-full p-2.5 border rounded-lg bg-slate-50 outline-none text-sm font-medium"><option value="K">Kawin</option><option value="TK">Tidak Kawin</option></select></div>
             <div><label class="block text-xs font-semibold text-slate-500 mb-1">Jumlah Anak</label><input type="number" id="p_jml_anak" disabled class="w-full p-2.5 border rounded-lg bg-slate-50 outline-none text-sm font-medium"></div>
           </div>
 
@@ -516,6 +569,7 @@
               <div><label class="block text-xs font-semibold text-slate-500 mb-1">Nama Suami / Istri</label><input type="text" id="p_nama_pasangan" disabled class="w-full p-2.5 border rounded-lg bg-white outline-none text-sm font-medium" placeholder="-"></div>
               <div><label class="block text-xs font-semibold text-slate-500 mb-1">Tanggal Lahir Suami / Istri</label><input type="date" id="p_tgl_lahir_pasangan" disabled class="w-full p-2.5 border rounded-lg bg-white outline-none text-sm font-medium"></div>
               <div><label class="block text-xs font-semibold text-slate-500 mb-1">Usia Suami / Istri (Otomatis)</label><input type="text" id="p_usia_pasangan" disabled class="w-full p-2.5 border rounded-lg bg-slate-100 font-medium text-slate-500 outline-none text-sm" placeholder="-"></div>
+              <div><label class="block text-xs font-semibold text-slate-500 mb-1">Pekerjaan Suami / Istri</label><input type="text" id="p_pekerjaan_pasangan" disabled class="w-full p-2.5 border rounded-lg bg-white outline-none text-sm font-medium" placeholder="-"></div>
             </div>
           </div>
 
@@ -580,22 +634,22 @@
 
     <div id="pegawai-riwayat-kerja-content" class="pegawai-tab-content hidden space-y-4">
       <h2 class="text-2xl font-bold">Riwayat Kerja</h2>
-      <p class="text-sm text-slate-500">Fitur Riwayat Mengajar, Tugas Tambahan, dan sedang dalam tahap pengembangan konsep detail.</p>
+      <p class="text-sm text-slate-500">Fitur Riwayat Mengajar, Tugas Tambahan, dan tugas lain sedang dalam tahap pengembangan.</p>
     </div>
     
     <div id="pegawai-prestasi-content" class="pegawai-tab-content hidden space-y-4">
       <h2 class="text-2xl font-bold">Prestasi & Kontribusi</h2>
-      <p class="text-sm text-slate-500">Fitur pencatatan prestasi mandiri sedang dalam tahap pengembangan konsep detail.</p>
+      <p class="text-sm text-slate-500">Fitur pencatatan Prestasi mandiri dan Kontribusi sedang dalam tahap pengembangan.</p>
     </div>
 
     <div id="pegawai-pengembangan-content" class="pegawai-tab-content hidden space-y-4">
       <h2 class="text-2xl font-bold">Pengembangan Profesi</h2>
-      <p class="text-sm text-slate-500">Fitur riwayat pelatihan, Sertifikasi Profesi, dan Inovasi Pembelajaran sedang dalam tahap pengembangan konsep detail.</p>
+      <p class="text-sm text-slate-500">Fitur Riwayat Pelatihan, Sertifikasi Profesi, dan Inovasi Pembelajaran sedang dalam tahap pengembangan.</p>
     </div>
 
     <div id="pegawai-kinerja-content" class="pegawai-tab-content hidden space-y-4">
       <h2 class="text-2xl font-bold">Kinerja Pegawai</h2>
-      <p class="text-sm text-slate-500">Halaman evaluasi kinerja tahunan / berkala.</p>
+      <p class="text-sm text-slate-500">Halaman Evaluasi Kinerja tahunan / berkala sedang dalam tahap pengembangan.</p>
     </div>
 
   </div>
@@ -737,6 +791,176 @@
   }
 }
 
+// UNTUK TAB INFOGRAFIS
+// Deklarasi Chart Instance (Taruh di paling atas file script Anda)
+//================================================================
+// Deklarasi Chart Instance (Tetap pastikan ini ada di paling atas file script Anda)
+let instanceChartStatus = null;
+let instanceChartUnit = null;
+let instanceChartPekerjaan = null;
+let instanceChartAgama = null;
+let instanceChartKTK = null;
+let instanceChartPendidikan = null;
+
+// Palet warna estetik universal untuk diagram lingkaran
+const colorsPalette = ['#2563eb', '#10b981', '#f59e0b', '#f43f5e', '#8b5cf6', '#06b6d4', '#64748b', '#ec4899'];
+
+// Konfigurasi bawaan agar semua ukuran & setelan chart 100% kembar identik
+const commonPieOptions = {
+  responsive: true,
+  maintainAspectRatio: false,
+  plugins: {
+    legend: {
+      position: 'bottom',
+      labels: { boxWidth: 12, font: { size: 11 } }
+    }
+  }
+};
+
+function renderInfografis() {
+  // Hanya gunakan data dari Sheet Pegawai Aktif
+  const dataAktif = globalData.pegawai || [];
+
+  // ==========================================
+  // 0. HITUNG TOTAL & GENDER (Menggunakan ["JK"])
+  // ==========================================
+  let totalPria = 0;
+  let totalWanita = 0;
+
+  dataAktif.forEach(p => {
+    const jk = String(p["JK"] || '').toUpperCase().trim();
+    if (jk === 'L' || jk === 'LAKI-LAKI' || jk === 'LAKI LAKI') totalPria++;
+    else if (jk === 'P' || jk === 'PEREMPUAN') totalWanita++;
+  });
+
+  document.getElementById("count-total").innerText = dataAktif.length;
+  document.getElementById("count-pria").innerText = totalPria;
+  document.getElementById("count-wanita").innerText = totalWanita;
+
+  // ==========================================
+  // 1. CHART: DISTRIBUSI STATUS (Menggunakan ["STATUS"])
+  // ==========================================
+  const hitungStatus = {};
+  dataAktif.forEach(p => {
+    const status = p["STATUS"] || "Tidak Diketahui";
+    hitungStatus[status] = (hitungStatus[status] || 0) + 1;
+  });
+
+  if (instanceChartStatus) instanceChartStatus.destroy();
+  const ctxStatus = document.getElementById('chartStatus').getContext('2d');
+  instanceChartStatus = new Chart(ctxStatus, {
+    type: 'pie',
+    data: {
+      labels: Object.keys(hitungStatus),
+      datasets: [{ data: Object.values(hitungStatus), backgroundColor: colorsPalette }]
+    },
+    options: commonPieOptions
+  });
+
+  // ==========================================
+  // 2. CHART: UNIT KERJA (Menggunakan ["UNIT KERJA"])
+  // ==========================================
+  const hitungUnit = {};
+  dataAktif.forEach(p => {
+    const unit = p["UNIT KERJA"] || "Tidak Diketahui";
+    hitungUnit[unit] = (hitungUnit[unit] || 0) + 1;
+  });
+
+  if (instanceChartUnit) instanceChartUnit.destroy();
+  const ctxUnit = document.getElementById('chartUnit').getContext('2d');
+  instanceChartUnit = new Chart(ctxUnit, {
+    type: 'pie',
+    data: {
+      labels: Object.keys(hitungUnit),
+      datasets: [{ data: Object.values(hitungUnit), backgroundColor: colorsPalette }]
+    },
+    options: commonPieOptions
+  });
+
+  // ==========================================
+  // 3. CHART: PEKERJAAN / JABATAN (Menggunakan ["PEKERJAAN"])
+  // ==========================================
+  const hitungKerja = {};
+  dataAktif.forEach(p => {
+    const kerja = p["PEKERJAAN"] || p["JABATAN"] || "Tidak Diketahui";
+    hitungKerja[kerja] = (hitungKerja[kerja] || 0) + 1;
+  });
+
+  if (instanceChartPekerjaan) instanceChartPekerjaan.destroy();
+  const ctxKerja = document.getElementById('chartPekerjaan').getContext('2d');
+  instanceChartPekerjaan = new Chart(ctxKerja, {
+    type: 'pie',
+    data: {
+      labels: Object.keys(hitungKerja),
+      datasets: [{ data: Object.values(hitungKerja), backgroundColor: colorsPalette }]
+    },
+    options: commonPieOptions
+  });
+
+  // ==========================================
+  // 4. CHART: AGAMA (Menggunakan ["AGAMA"])
+  // ==========================================
+  const hitungAgama = {};
+  dataAktif.forEach(p => {
+    const agama = p["AGAMA"] || "Tidak Diketahui";
+    hitungAgama[agama] = (hitungAgama[agama] || 0) + 1;
+  });
+
+  if (instanceChartAgama) instanceChartAgama.destroy();
+  const ctxAgama = document.getElementById('chartAgama').getContext('2d');
+  instanceChartAgama = new Chart(ctxAgama, {
+    type: 'pie',
+    data: {
+      labels: Object.keys(hitungAgama),
+      datasets: [{ data: Object.values(hitungAgama), backgroundColor: colorsPalette }]
+    },
+    options: commonPieOptions
+  });
+
+  // ==========================================
+  // 5. CHART: STATUS K/TK (Menggunakan ["K/TK"])
+  // ==========================================
+  const hitungKTK = {};
+  dataAktif.forEach(p => {
+    const ktk = p["K/TK"] || "Tidak Diketahui";
+    hitungKTK[ktk] = (hitungKTK[ktk] || 0) + 1;
+  });
+
+  if (instanceChartKTK) instanceChartKTK.destroy();
+  const ctxKTK = document.getElementById('chartKTK').getContext('2d');
+  instanceChartKTK = new Chart(ctxKTK, {
+    type: 'pie',
+    data: {
+      labels: Object.keys(hitungKTK),
+      datasets: [{ data: Object.values(hitungKTK), backgroundColor: colorsPalette }]
+    },
+    options: commonPieOptions
+  });
+
+  // ==========================================
+  // 6. CHART: PENDIDIKAN (Menggunakan ["PENDIDIKAN"])
+  // ==========================================
+  const hitungPendidikan = {};
+  dataAktif.forEach(p => {
+    const edu = p["PENDIDIKAN"] || "Tidak Diketahui";
+    hitungPendidikan[edu] = (hitungPendidikan[edu] || 0) + 1;
+  });
+
+  if (instanceChartPendidikan) instanceChartPendidikan.destroy();
+  const ctxPendidikan = document.getElementById('chartPendidikan').getContext('2d');
+  instanceChartPendidikan = new Chart(ctxPendidikan, {
+    type: 'pie',
+    data: {
+      labels: Object.keys(hitungPendidikan),
+      datasets: [{ data: Object.values(hitungPendidikan), backgroundColor: colorsPalette }]
+    },
+    options: commonPieOptions
+  });
+}
+
+
+
+
   //TAMPILKAN LOGIN PAGE
   //====================
   //====================
@@ -762,16 +986,16 @@
 
     // Fungsi Tambahan: Untuk Tombol Keluar / Logout
     function logout() {
-  Swal.fire({
-    title: 'Konfirmasi Keluar',
-    text: 'Apakah Anda yakin ingin keluar dari sistem?',
-    icon: 'question',
-    showCancelButton: true,
-    confirmButtonColor: '#d33', // Warna merah untuk tombol konfirmasi keluar
-    cancelButtonColor: '#3085d6', // Warna biru untuk tombol batal
-    confirmButtonText: 'Ya, Keluar',
-    cancelButtonText: 'Batal'
-  }).then((result) => {
+          Swal.fire({
+            title: 'Konfirmasi Keluar',
+            text: 'Apakah Anda yakin ingin keluar dari sistem?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#d33', // Warna merah untuk tombol konfirmasi keluar
+            cancelButtonColor: '#3085d6', // Warna biru untuk tombol batal
+            confirmButtonText: 'Ya, Keluar',
+            cancelButtonText: 'Batal'
+          }).then((result) => {
     // Jika pengguna menekan tombol "Ya, Keluar"
     if (result.isConfirmed) {
       sessionStorage.removeItem("namaAdminAktif");
@@ -887,7 +1111,7 @@
             const [d, m, y] = profil["MULAI KERJA"].split("-");
             document.getElementById("p_mulai_kerja").value = `${y}-${m}-${d}`;
           }
-          
+          document.getElementById("p_masa_dinas").value = profil["MASA DINAS"] || "";
           document.getElementById("p_pangkat").value = profil["PANGKAT"] || "";
           
           if (profil["TMT PANGKAT"]) {
@@ -923,6 +1147,7 @@
             document.getElementById("p_nama_pasangan").value = keluarga["NAMA PASANGAN"] || "";
             document.getElementById("p_tgl_lahir_pasangan").value = formatToHTMLDate(keluarga["TANGGAL LAHIR PASANGAN"]);
             document.getElementById("p_usia_pasangan").value = keluarga["USIA PASANGAN"] ? keluarga["USIA PASANGAN"] : "-";
+            document.getElementById("p_pekerjaan_pasangan").value = keluarga["PEKERJAAN PASANGAN"] || "";
             
             // 2. Data Anak Kesatu
             document.getElementById("p_nama_anak1").value = keluarga["NAMA ANAK KESATU"] || "";
@@ -947,7 +1172,7 @@
           } else {
             // Jika data keluarga kosong di spreadsheet, bersihkan semua field
             const familyFields = [
-              "p_nama_pasangan", "p_tgl_lahir_pasangan", "p_usia_pasangan",
+              "p_nama_pasangan", "p_tgl_lahir_pasangan", "p_usia_pasangan","p_pekerjaan_pasangan",
               "p_nama_anak1", "p_tgl_lahir_anak1", "p_usia_anak1",
               "p_nama_anak2", "p_tgl_lahir_anak2", "p_usia_anak2",
               "p_nama_anak3", "p_tgl_lahir_anak3", "p_usia_anak3",
@@ -979,11 +1204,11 @@
     //Kontrol Buka Kunci Form (Sistem Edit Mandiri Pegawai)
     function enableEditProfil() {
       const fieldsToEdit = [
-        "p_foto_file", "p_tempat_lahir", "p_tgl_lahir", "p_jk", "p_agama", "p_nohp", 
+        "p_foto_file", "p_tempat_lahir", "p_tgl_lahir", "p_jk", "p_agama", "p_nohp","p_status", 
         "p_nipy","p_jabatan","p_pekerjaan","p_unit","p_mulai_kerja","p_pangkat","p_tmt_pangkat","p_berkala_terakhir",
         "p_alamat", "p_pendidikan", "p_jurusan", "p_nuptk", "p_no_sertifikasi", 
         "p_tahun_sertifikasi", "p_ktk", "p_jml_anak", "p_password",
-        "p_nama_pasangan", "p_tgl_foto_pasangan", "p_tgl_lahir_pasangan",
+        "p_nama_pasangan", "p_tgl_foto_pasangan", "p_tgl_lahir_pasangan", "p_pekerjaan_pasangan",
         "p_nama_anak1", "p_tgl_lahir_anak1",
         "p_nama_anak2", "p_tgl_lahir_anak2",
         "p_nama_anak3", "p_tgl_lahir_anak3",
@@ -1096,6 +1321,7 @@
             "NAMA PEGAWAI": document.getElementById("p_nama").value,
             "NAMA PASANGAN": document.getElementById("p_nama_pasangan").value,
             "TANGGAL LAHIR PASANGAN": formatToSheetDate(document.getElementById("p_tgl_lahir_pasangan").value),
+            "PEKERJAAN PASANGAN": document.getElementById("p_pekerjaan_pasangan").value,
             "NAMA ANAK KESATU": document.getElementById("p_nama_anak1").value,
             "TANGGAL LAHIR ANAK KESATU": formatToSheetDate(document.getElementById("p_tgl_lahir_anak1").value),
             "NAMA ANAK KEDUA": document.getElementById("p_nama_anak2").value,
@@ -1124,7 +1350,7 @@
         icon: 'success',
         title: 'Pembaruan Berhasil!',
         text: 'Selamat! Data profil dan foto Anda berhasil diperbarui.',
-        timer: 2000, // Menutup otomatis dalam 2 detik
+        timer: 3000, // Menutup otomatis dalam 3 detik
         showConfirmButton: false,
         willClose: () => {
           // Reset input file agar kosong kembali
@@ -1511,6 +1737,7 @@ async function submitCalonPegawai(event) {
       globalData.keluarga = result.data.keluarga; 
       globalData.keluar = result.data.keluar;
       globalData.pensiun = result.data.pensiun;
+      renderInfografis();
 
       // Render Masing-masing Tabel jika Datanya Ada
       if (result.data && result.data.calonPegawai) { renderTableCalonPegawai(result.data.calonPegawai); }
@@ -1567,6 +1794,7 @@ function renderTablePegawaiAktif(dataPegawai) {
             <td class="p-4"><img src="${fotoUrl}" alt="Foto" class="w-10 h-10 object-cover rounded-full border"></td>
             <td class="p-4 font-semibold text-slate-800">${pegawai["NAMA PEGAWAI"]}</td>
             <td class="p-4 text-slate-600">${pegawai["MULAI KERJA"] || '-'}</td>
+            <td class="p-4 text-slate-600">${pegawai["MASA DINAS"] || '-'}</td>
             <td class="p-4 text-slate-600">${pegawai["UNIT KERJA"] || '-'}</td>
             <td class="p-4 text-slate-600">${pegawai["STATUS"] || '-'}</td>
             <td class="p-4 text-slate-600">${pegawai["PEKERJAAN"] || '-'}</td>
@@ -1728,6 +1956,7 @@ function bukaModalEditPegawai(username) {
     
     // Teks & Nama Keluarga
     document.getElementById("e_nama_pasangan").value = keluarga["NAMA PASANGAN"] || "";
+    document.getElementById("e_pekerjaan_pasangan").value = keluarga["PEKERJAAN PASANGAN"] || "";
     document.getElementById("e_nama_anak1").value = keluarga["NAMA ANAK KESATU"] || "";
     document.getElementById("e_nama_anak2").value = keluarga["NAMA ANAK KEDUA"] || "";
     document.getElementById("e_nama_anak3").value = keluarga["NAMA ANAK KETIGA"] || "";
@@ -1835,6 +2064,7 @@ async function simpanEditPegawaiAdmin(event) {
         "NAMA PEGAWAI": document.getElementById("e_nama").value,
         "NAMA PASANGAN": document.getElementById("e_nama_pasangan").value,
         "TANGGAL LAHIR PASANGAN": formatToSheetDate(document.getElementById("e_tgl_lahir_pasangan").value),
+        "PEKERJAAN PASANGAN": document.getElementById("e_pekerjaan_pasangan").value,
         "NAMA ANAK KESATU": document.getElementById("e_nama_anak1").value,
         "TANGGAL LAHIR ANAK KESATU": formatToSheetDate(document.getElementById("e_tgl_lahir_anak1").value),
         "NAMA ANAK KEDUA": document.getElementById("e_nama_anak2").value,
@@ -1918,13 +2148,12 @@ function lihatDetailPegawai(username) {
       <div><p class="text-xs text-slate-400 font-medium">Pendidikan Terakhir</p><p class="font-semibold">${pegawai["PENDIDIKAN"]} - ${pegawai["JURUSAN"]}</p></div>
       <div><p class="text-xs text-slate-400 font-medium">Status Hubungan</p><p class="font-semibold">Status: ${pegawai["K/TK"]} | Jml Anak: ${pegawai["JML ANAK"] || '0'}</p></div>
       <div><p class="text-xs text-slate-400 font-medium">Unit Kerja / Pekerjaan</p><p class="font-semibold">${pegawai["UNIT KERJA"] || '-'} / ${pegawai["PEKERJAAN"] || '-'}</p></div>
-      <div><p class="text-xs text-slate-400 font-medium">Mulai Kerja</p><p class="font-semibold">${pegawai["MULAI KERJA"] || '-'}</p></div>
+      <div><p class="text-xs text-slate-400 font-medium">Mulai Kerja/Masa Dinas</p><p class="font-semibold">${pegawai["MULAI KERJA"] || '-'} (${pegawai["MASA DINAS"] || '-'})</p></div>
       <div><p class="text-xs text-slate-400 font-medium">Status Kepegawaian</p><p class="font-semibold">${pegawai["STATUS"] || '-'}</p></div>
       <div><p class="text-xs text-slate-400 font-medium">Pangkat / TMT Pangkat</p><p class="font-semibold">${pegawai["PANGKAT"] || '-'} (${pegawai["TMT PANGKAT"] || '-'})</p></div>
       <div><p class="text-xs text-slate-400 font-medium">Berkala Terakhir</p><p class="font-semibold">${pegawai["BERKALA TERAKHIR"] || '-'}</p></div>
       <div><p class="text-xs text-slate-400 font-medium">NUPTK</p><p class="font-semibold">${pegawai["NUPTK"] || '-'}</p></div>
-      <div><p class="text-xs text-slate-400 font-medium">No Sertifikasi</p><p class="font-semibold">${pegawai["NO SERTIFIKASI"] || '-'}</p></div>
-      <div><p class="text-xs text-slate-400 font-medium">Tahun Sertifikasi</p><p class="font-semibold">${pegawai["TAHUN SERTIFIKASI"] || '-'}</p></div>
+      <div><p class="text-xs text-slate-400 font-medium">Tahun dan No Sertifikasi</p><p class="font-semibold">${pegawai["TAHUN SERTIFIKASI"]} | ${pegawai["NO SERTIFIKASI"] || '-'}</p></div>
     </div>
     </div>
   `;
@@ -2324,14 +2553,11 @@ function lihatDetailMutasi(jenis, username) {
 function refreshDataAdmin() {
   const icon = document.getElementById("icon-refresh");
   
-  // 1. Hidupkan efek putar animasi ikon & ubah kursor menjadi loading
   if (icon) icon.classList.add("fa-spin");
   document.body.style.cursor = 'wait';
-  
-  // 2. Panggil fungsi load data bawaan Anda (tanpa await agar tidak menyumbat antrean kursor)
+   
   loadAdminData();
-  
-  // 3. Gunakan interval pintar untuk mengecek apakah tabel sudah selesai berganti dari tulisan "Memuat data..."
+   
   let cekSelesai = setInterval(() => {
     const tbodyPegawai = document.getElementById("table-pegawai-rows");
     
@@ -2392,7 +2618,12 @@ function refreshDataAdmin() {
                 <div><label class="block text-xs font-semibold text-slate-500 mb-1">Nama Lengkap</label><input type="text" id="e_nama" required class="w-full p-2.5 border rounded-lg bg-white outline-none focus:ring-2 focus:ring-blue-500 text-sm font-medium"></div>
                 <div><label class="block text-xs font-semibold text-slate-500 mb-1">Tempat Lahir</label><input type="text" id="e_tempat_lahir" class="w-full p-2.5 border rounded-lg bg-white outline-none focus:ring-2 focus:ring-blue-500 text-sm font-medium"></div>
                 <div><label class="block text-xs font-semibold text-slate-500 mb-1">Tanggal Lahir</label><input type="date" id="e_tgl_lahir" class="w-full p-2.5 border rounded-lg bg-white outline-none focus:ring-2 focus:ring-blue-500 text-sm font-medium"></div>
-                <div><label class="block text-xs font-semibold text-slate-500 mb-1">Jenis Kelamin</label><select id="e_jk" class="w-full p-2.5 border rounded-lg bg-white outline-none focus:ring-2 focus:ring-blue-500 text-sm font-medium"><option value="">-- Pilih --</option><option value="L">Laki-Laki</option><option value="P">Perempuan</option></select></div>
+                <div><label class="block text-xs font-semibold text-slate-500 mb-1">Jenis Kelamin</label><select id="e_jk" class="w-full p-2.5 border rounded-lg bg-white outline-none focus:ring-2 focus:ring-blue-500 text-sm font-medium">
+                        <option value="">-- Pilih --</option>
+                        <option value="L">Laki-Laki</option>
+                        <option value="P">Perempuan</option>
+                      </select>
+                    </div>
                 <div><label class="block text-xs font-semibold text-slate-500 mb-1">Agama</label><input type="text" id="e_agama" class="w-full p-2.5 border rounded-lg bg-white outline-none focus:ring-2 focus:ring-blue-500 text-sm font-medium"></div>
                 <div><label class="block text-xs font-semibold text-slate-500 mb-1">No HP / WA</label><input type="text" id="e_nohp" class="w-full p-2.5 border rounded-lg bg-white outline-none focus:ring-2 focus:ring-blue-500 text-sm font-medium"></div>
                 <div class="sm:col-span-2"><label class="block text-xs font-semibold text-slate-500 mb-1">Alamat Domisili</label><textarea id="e_alamat" rows="2" class="w-full p-2.5 border rounded-lg bg-white outline-none focus:ring-2 focus:ring-blue-500 text-sm font-medium"></textarea></div>
@@ -2407,7 +2638,15 @@ function refreshDataAdmin() {
               <div><label class="block text-xs font-semibold text-slate-500 mb-1">Jabatan Resmi</label><input type="text" id="e_jabatan" class="w-full p-2.5 border rounded-lg bg-white outline-none focus:ring-2 focus:ring-blue-500 text-sm font-medium"></div>
               <div><label class="block text-xs font-semibold text-slate-500 mb-1">Pekerjaan/Tugas</label><input type="text" id="e_pekerjaan" class="w-full p-2.5 border rounded-lg bg-white outline-none focus:ring-2 focus:ring-blue-500 text-sm font-medium"></div>
               <div><label class="block text-xs font-semibold text-slate-500 mb-1">Unit Kerja</label><input type="text" id="e_unit" class="w-full p-2.5 border rounded-lg bg-white outline-none focus:ring-2 focus:ring-blue-500 text-sm font-medium"></div>
-              <div><label class="block text-xs font-semibold text-slate-500 mb-1">Status Kepegawaian</label><input type="text" id="e_status" class="w-full p-2.5 border rounded-lg bg-white outline-none focus:ring-2 focus:ring-blue-500 text-sm font-medium"></div>
+              <div><label class="block text-xs font-semibold text-slate-500 mb-1">Status Kepegawaian</label><select id="e_status" class="w-full p-2.5 border rounded-lg bg-white outline-none focus:ring-2 focus:ring-blue-500 text-sm font-medium">
+                      <option value="">-- Pilih --</option>
+                      <option value="PTY">Pegawai Tetap Yayasan</option>
+                      <option value="CPT">Calon Pegawai Tetap</option>
+                      <option value="PPT Kontrak">Pegawai Tidak Tetap Kontrak</option>
+                      <option value="PPT Honor">Pegawai Tidak Tetap Honor</option>
+                      <option value="HS">Pegawai Honor Sekolah</option>
+                    </select>
+                  </div>
               <div><label class="block text-xs font-semibold text-slate-500 mb-1">Mulai Kerja</label><input type="date" id="e_mulai_kerja" class="w-full p-2.5 border rounded-lg bg-white outline-none focus:ring-2 focus:ring-blue-500 text-sm font-medium"></div>
               <div><label class="block text-xs font-semibold text-slate-500 mb-1">Pangkat / Golongan</label><input type="text" id="e_pangkat" class="w-full p-2.5 border rounded-lg bg-white outline-none focus:ring-2 focus:ring-blue-500 text-sm font-medium"></div>
               <div><label class="block text-xs font-semibold text-slate-500 mb-1">TMT Pangkat</label><input type="date" id="e_tmt_pangkat" class="w-full p-2.5 border rounded-lg bg-white outline-none focus:ring-2 focus:ring-blue-500 text-sm font-medium"></div>
@@ -2452,6 +2691,7 @@ function refreshDataAdmin() {
       <div><label class="block text-xs font-semibold text-slate-500 mb-1">Nama Suami / Istri</label><input type="text" id="e_nama_pasangan" class="w-full p-2.5 border rounded-lg bg-white outline-none focus:ring-2 focus:ring-blue-500 text-sm font-medium" placeholder="-"></div>
       <div><label class="block text-xs font-semibold text-slate-500 mb-1">Tanggal Lahir Pasangan</label><input type="date" id="e_tgl_lahir_pasangan" class="w-full p-2.5 border rounded-lg bg-white outline-none focus:ring-2 focus:ring-blue-500 text-sm font-medium"></div>
       <div><label class="block text-xs font-semibold text-slate-500 mb-1">Usia Pasangan (Otomatis)</label><input type="text" id="e_usia_pasangan" readonly class="w-full p-2.5 border rounded-lg bg-slate-100 font-medium text-slate-500 outline-none text-sm cursor-not-allowed" placeholder="-"></div>
+      <div><label class="block text-xs font-semibold text-slate-500 mb-1">Pekerjaan Suami / Istri</label><input type="text" id="e_pekerjaan_pasangan" class="w-full p-2.5 border rounded-lg bg-white outline-none focus:ring-2 focus:ring-blue-500 text-sm font-medium" placeholder="-"></div>
     </div>
   </div>
 
