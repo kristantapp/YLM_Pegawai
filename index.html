@@ -296,25 +296,92 @@
 
 
       <div id="tab-data-pegawai" class="admin-tab-content hidden">
-        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4">
-          <h2 class="text-2xl font-bold">Data Pegawai Aktif</h2>
-          <button onclick="refreshDataAdmin()" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-semibold transition flex items-center shadow-sm border border-slate-200"><i class="fa fa-sync-alt mr-1.5" id="icon-refresh"></i> Perbarui Data</button>
-          <input type="text" onkeyup="searchTable('table-pegawai-rows', this.value)" class="mt-2 sm:mt-0 px-4 py-2 border rounded-lg text-sm w-full sm:w-64 outline-none focus:ring-2 focus:ring-blue-500" placeholder="Cari Pegawai...">
-        </div>
-        <div class="bg-white rounded-xl shadow-sm overflow-x-auto">
-          <!-- text-left di bawah ini memastikan isi tabel (tbody) otomatis rata kiri -->
-          <table class="w-full text-left text-sm border-collapse">
-            <thead>
-              <tr class="bg-slate-100 border-b text-slate-600">
-                <th class="p-4">Foto</th><th class="p-4">Nama Pegawai</th><th class="p-4">Mulai Kerja</th><th class="p-4">Masa Dinas</th>
-                <th class="p-4">Unit Kerja</th><th class="p-4">Status</th><th class="p-4">Tugas</th><th class="p-4">Jabatan</th>
-                <th class="p-4">Pangkat</th><th class="p-4">Berkala Terakhir</th><th class="p-4">Usia</th><th class="p-4 text-center">Aksi</th>
-              </tr>
-            </thead>
-            <tbody id="table-pegawai-rows"></tbody>
-          </table>
-        </div>
+  <!-- HEADER & KONTROL BARIS ATAS -->
+  <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4">
+    <h2 class="text-2xl font-bold">Data Pegawai Aktif</h2>
+    
+
+
+
+    <div class="flex flex-wrap items-center gap-2">
+      <!-- Dropdown Jumlah Baris Per Halaman -->
+      <div class="flex items-center space-x-1.5 bg-white border border-slate-300 rounded-lg px-2 py-1.5 shadow-sm text-xs">
+        <span class="text-slate-500 font-medium">Tampil:</span>
+        <select id="limit-per-halaman" onchange="gantiLimitHalaman()" class="bg-transparent font-semibold outline-none cursor-pointer">
+          <option value="10">10</option>
+          <option value="25" selected>25</option>
+          <option value="50">50</option>
+          <option value="ALL">Semua</option>
+        </select>
       </div>
+      
+      
+      
+      
+      <!-- Tombol Perbarui Data -->
+      <button onclick="refreshDataAdmin()" class="px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-semibold transition flex items-center justify-center shadow-sm border border-slate-200">
+        <i class="fa fa-sync-alt mr-1.5" id="icon-refresh"></i> Perbarui Data
+      </button>
+
+      <!-- Dropdown Pilih Kolom Filter -->
+      <select id="filter-kolom-pegawai" onchange="filterTabelPegawai()" class="px-3 py-2 bg-white border border-slate-300 rounded-lg text-xs outline-none focus:ring-2 focus:ring-blue-500 shadow-sm">
+        <option value="ALL">-- Semua Kolom --</option>
+        <option value="NAMA PEGAWAI">Nama Pegawai</option>
+        <option value="MULAI KERJA">Mulai Kerja</option>
+        <option value="MASA DINAS">Masa Dinas</option>
+        <option value="UNIT KERJA">Unit Kerja</option>
+        <option value="STATUS">Status</option>
+        <option value="PEKERJAAN">Tugas / Pekerjaan</option>
+        <option value="JABATAN">Jabatan</option>
+        <option value="PANGKAT">Pangkat</option>
+        <option value="BERKALA TERAKHIR">Berkala Terakhir</option>
+        <option value="USIA">Usia</option>
+      </select>
+
+      <!-- Input Kata Kunci Pencarian -->
+      <div class="relative w-full sm:w-64">
+        <input 
+          type="text" 
+          id="input-search-pegawai" 
+          onkeyup="filterTabelPegawai()" 
+          class="w-full pl-8 pr-3 py-2 border border-slate-300 rounded-lg text-xs outline-none focus:ring-2 focus:ring-blue-500 shadow-sm" 
+          placeholder="Cari..."
+        >
+        <i class="fa fa-search absolute left-2.5 top-2.5 text-slate-400 text-xs"></i>
+      </div>
+    </div>
+  </div>
+
+  <!-- TABEL PEGAWAI -->
+  <div class="bg-white rounded-xl shadow-sm overflow-x-auto">
+    <table class="w-full text-left text-sm border-collapse">
+      <thead>
+        <tr class="bg-slate-100 border-b text-slate-600">
+          <th class="p-4">Foto</th>
+          <th class="p-4">Nama Pegawai</th>
+          <th class="p-4">Mulai Kerja</th>
+          <th class="p-4">Masa Dinas</th>
+          <th class="p-4">Unit Kerja</th>
+          <th class="p-4">Status</th>
+          <th class="p-4">Tugas</th>
+          <th class="p-4">Jabatan</th>
+          <th class="p-4">Pangkat</th>
+          <th class="p-4">Berkala Terakhir</th>
+          <th class="p-4">Usia</th>
+          <th class="p-4 text-center">Aksi</th>
+        </tr>
+      </thead>
+      <tbody id="table-pegawai-rows"></tbody>
+    </table>
+  <!-- NAVIGASI PAGINASI (BARIS BWAH TABEL) -->
+    <div class="p-4 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-600 bg-slate-50/50">
+      <div id="info-paginasi-pegawai">Menampilkan 0 dari 0 data</div>
+      <div class="flex items-center space-x-1" id="tombol-paginasi-pegawai">
+        <!-- Tombol Paginasi akan di-render otomatis oleh JavaScript -->
+      </div>
+    </div>
+  </div>
+</div>
 
 
 
@@ -514,9 +581,9 @@
             <div><label class="block text-xs font-semibold text-slate-500 mb-1">Unit Kerja</label><select id="p_unit" disabled class="w-full p-2.5 border rounded-lg bg-slate-50 outline-none text-sm font-medium">
               <option value="TK Xaverius 1 BL ">TK Xaverius 1 Bandar Lampung</option>
               <option value="TK Xaverius Metro">TK Xaverius Metro</option>
-              <option value="TK Xaverius Ngestirahayu">TK Xaverius Ngestirahayu</option>
-              <option value="TK Xaverius Seputih Banyak">TK Xaverius Seputih Banyak</option>
-              <option value="PAUD Miryam Tulang Bawang">PAUD Miryam Tulang Bawang</option>
+              <option value="TK Xaverius NR">TK Xaverius Ngestirahayu</option>
+              <option value="TK Xaverius SB">TK Xaverius Seputih Banyak</option>
+              <option value="PAUD Miryam TB">PAUD Miryam Tulang Bawang</option>
               <option value="TK Xaverius 1 PLG">TK Xaverius 1 Palembang</option>
               <option value="TK Miryam TS">TK Miryam Tenggarong Seberang</option>
               <option value="SD Xaverius Metro">SD Xaverius Metro</option>
@@ -663,7 +730,7 @@
   </div>
 
   <script>
-    const API_URL = "https://script.google.com/macros/s/AKfycbzYBs9dF9TmihcMThXKPSQBigYDteMyMzOGmj9N1YpM5iSpr2NpXJxXSQM2CAlORM_p/exec"; 
+    const API_URL = "https://script.google.com/macros/s/AKfycbzwPzpH_eccTcPFuHIP4ZW_hW-9Inf3uiGwrb96F5kBjvdbxuXsFayQv1_-x0m2bK3O/exec"; 
     let globalData = {};
 
     function showPage(pageId) {
@@ -719,8 +786,6 @@
       if (userData.role === "Admin") {
         // --- JIKA LOGIN SEBAGAI ADMIN ---
         sessionStorage.setItem("namaAdminAktif", userData.nama);
-
-        // Notifikasi Sukses Admin dengan SweetAlert2
         Swal.fire({
           icon: 'success',
           title: 'Login Berhasil!',
@@ -734,9 +799,7 @@
         });
 
       } else if (userData.role === "Pegawai") {
-        // --- JIKA LOGIN SEBAGAI PEGAWAI ---
         
-        // Notifikasi Sukses Pegawai dengan SweetAlert2
         Swal.fire({
           icon: 'success',
           title: 'Login Berhasil!',
@@ -1060,6 +1123,34 @@ function renderInfografis() {
    
     
 
+function filterTabelPegawai() {
+  const kriteriaKolom = document.getElementById("filter-kolom-pegawai").value;
+  const keyword = document.getElementById("input-search-pegawai").value.toLowerCase().trim();
+  
+  const dataAsli = globalData.pegawai || [];
+
+  currentPagePegawai = 1; // RESET KE HALAMAN 1 SAAT FILTER BERUBAH
+
+  if (keyword === "") {
+    renderTablePegawaiAktif(dataAsli);
+    return;
+  }
+
+  const dataHasilFilter = dataAsli.filter(p => {
+    if (kriteriaKolom === "ALL") {
+      return Object.values(p).some(val => 
+        String(val || '').toLowerCase().includes(keyword)
+      );
+    } else {
+      const nilaiKolom = String(p[kriteriaKolom] || '').toLowerCase();
+      return nilaiKolom.includes(keyword);
+    }
+  });
+
+  renderTablePegawaiAktif(dataHasilFilter);
+}
+
+
 
     //FUNGSI LOAD DATA LENGKAP PEGAWAI TAMPIL DI FORM (OLEH PEGAWAI)
     //==============================================================
@@ -1199,7 +1290,13 @@ function renderInfografis() {
           });
         }
       } catch (error) {
-        alert("Terjadi gangguan koneksi data profil.");
+            Swal.fire({
+            icon: 'error',
+            title: 'Gangguan Koneksi',
+            text: 'Terjadi gangguan koneksi data profil. Silakan periksa jaringan Anda dan coba lagi.',
+            confirmButtonColor: '#2563eb',
+            confirmButtonText: 'Coba Lagi'
+          });
         console.error(error);
       } finally {
         document.body.style.cursor = 'default';
@@ -1552,11 +1649,22 @@ async function submitCalonPegawai(event) {
 
       tampilkanLoginSaja();
     } else {
-      alert("Terjadi Kesalahan: " + (result.message || "Gagal menyimpan data"));
+        Swal.fire({
+        icon: 'error',
+        title: 'Terjadi Kesalahan',
+        text: result.message || 'Gagal menyimpan data.',
+        confirmButtonColor: '#2563eb',
+        confirmButtonText: 'Tutup'
+      });
     }
   } catch (error) {
-    // FIX PERBAIKAN: Menampilkan pesan error aslinya agar transparan terpantau di layar
-    alert("Terjadi Kendala: " + error.message);
+        Swal.fire({
+        icon: 'error',
+        title: 'Terjadi Kendala',
+        text: error.message || 'Terjadi kesalahan sistem yang tidak diketahui.',
+        confirmButtonColor: '#2563eb',
+        confirmButtonText: 'Tutup'
+      });
     console.error(error);
   } finally {
     // Kembalikan tombol dan kursor mouse ke keadaan semula
@@ -1575,44 +1683,66 @@ async function submitCalonPegawai(event) {
     //=================================================================================
     //=================================================================================
     function renderTableCalonPegawai(dataCalon) {
-      globalData.calonPegawai = dataCalon; // Simpan ke global variable
-      const tbody = document.getElementById("table-calon-rows");
-      tbody.innerHTML = "";
+          globalData.calonPegawai = dataCalon; // Simpan ke global variable
+          const tbody = document.getElementById("table-calon-rows");
+          if (!tbody) return;
+          tbody.innerHTML = "";
 
-      if (!dataCalon || dataCalon.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-slate-400">Tidak ada data calon pegawai yang perlu divalidasi.</td></tr>`;
-        return;
-      }
+          if (!dataCalon || dataCalon.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-slate-400">Tidak ada data calon pegawai yang perlu divalidasi.</td></tr>`;
+            return;
+          }
 
-      dataCalon.forEach(calon => {
-        // Gunakan foto default jika URL Foto kosong
-        const fotoUrl = calon["URL FOTO"] || "https://via.placeholder.com/150/1e40af/ffffff?text=FOTO";
-        
-        const tr = document.createElement("tr");
-        tr.className = "border-b hover:bg-slate-50 transition";
-        tr.innerHTML = `
-          <td class="p-4"><img src="${fotoUrl}" alt="Foto" class="w-10 h-10 object-cover rounded-full border"></td>
-          <td class="p-4 font-semibold text-slate-700">${calon["NAMA PEGAWAI"]}</td>
-          <td class="p-4"><span class="px-2.5 py-1 text-xs font-semibold bg-amber-100 text-amber-800 rounded-full">${calon["STATUS"] || 'Calon'}</span></td>
-          <td class="p-4 text-slate-600">${calon["UNIT KERJA"] || '-'}</td>
-          <td class="p-4 text-slate-600">${calon["PEKERJAAN"] || '-'}</td>
-          <td class="p-4">
-            <div class="flex items-center justify-center space-x-2">
-              <button onclick="lihatDetailCalon('${calon["USERNAME"]}')" class="px-3 py-1.5 bg-blue-50 text-blue-600 hover:bg-blue-100 rounded-lg text-xs font-semibold transition flex items-center">
-                <i class="fa fa-eye mr-1"></i> Detail
-              </button>
-              <button onclick="prosesValidasiCalon('${calon["NIPY"] || ''}', '${calon["USERNAME"]}', 'SETUJU')" class="px-3 py-1.5 bg-emerald-600 text-white hover:bg-emerald-700 rounded-lg text-xs font-semibold transition flex items-center shadow-sm">
-                <i class="fa fa-check mr-1"></i> Setuju
-              </button>
-              <button onclick="prosesValidasiCalon('${calon["NIPY"] || ''}', '${calon["USERNAME"]}', 'HAPUS')" class="px-3 py-1.5 bg-red-100 text-red-600 hover:bg-red-200 rounded-lg text-xs font-semibold transition flex items-center">
-                <i class="fa fa-trash mr-1"></i> Hapus
-              </button>
-            </div>
-          </td>
-        `;
-        tbody.appendChild(tr);
-      });
-    }
+          dataCalon.forEach(calon => {
+            // Foto default jika URL Foto kosong
+            const fotoUrl = calon["URL FOTO"] || "https://via.placeholder.com/150/1e40af/ffffff?text=FOTO";
+            
+            // Ambil Username & NIPY (Aman jika undefined/kosong)
+            const usernameVal = calon["USERNAME"] || "";
+            const nipyVal = calon["NIPY"] || usernameVal;
+            
+            // Escape tanda petik tunggal agar tidak merusak onclick HTML
+            const usernameSafe = String(usernameVal).replace(/'/g, "\\'");
+            const nipySafe = String(nipyVal).replace(/'/g, "\\'");
+            const namaSafe = String(calon["NAMA PEGAWAI"] || 'Calon').replace(/'/g, "\\'");
+
+            const tr = document.createElement("tr");
+            tr.className = "border-b hover:bg-slate-50 transition";
+            
+            tr.innerHTML = `
+              <td class="p-4">
+                <img src="${fotoUrl}" 
+                    alt="Foto" 
+                    onclick="previewFotoLayarPenuh('${fotoUrl}', '${namaSafe}')" 
+                    class="w-10 h-10 object-cover rounded-full border cursor-pointer hover:opacity-80 transition shadow-sm" 
+                    title="Klik untuk lihat foto penuh">
+              </td>
+              <td class="p-4 font-semibold text-slate-700">${calon["NAMA PEGAWAI"] || '-'}</td>
+              <td class="p-4"><span class="px-2.5 py-1 text-xs font-semibold bg-amber-100 text-amber-800 rounded-full">${calon["STATUS"] || 'Calon'}</span></td>
+              <td class="p-4 text-slate-600">${calon["UNIT KERJA"] || '-'}</td>
+              <td class="p-4 text-slate-600">${calon["PEKERJAAN"] || '-'}</td>
+              <td class="p-4">
+                <div class="flex items-center justify-center space-x-2">
+                  <!-- Tombol Detail -->
+                  <button type="button" onclick="lihatDetailCalon('${usernameSafe}')" class="px-3 py-1.5 bg-blue-50 text-blue-600 hover:bg-blue-100 rounded-lg text-xs font-semibold transition flex items-center">
+                    <i class="fa fa-eye mr-1"></i> Detail
+                  </button>
+                  
+                  <!-- Tombol Setuju -->
+                  <button type="button" onclick="prosesValidasiCalon('${nipySafe}', '${usernameSafe}', 'SETUJU')" class="px-3 py-1.5 bg-emerald-600 text-white hover:bg-emerald-700 rounded-lg text-xs font-semibold transition flex items-center shadow-sm">
+                    <i class="fa fa-check mr-1"></i> Setuju
+                  </button>
+                  
+                  <!-- Tombol Hapus -->
+                  <button type="button" onclick="prosesValidasiCalon('${nipySafe}', '${usernameSafe}', 'HAPUS')" class="px-3 py-1.5 bg-red-100 text-red-600 hover:bg-red-200 rounded-lg text-xs font-semibold transition flex items-center">
+                    <i class="fa fa-trash mr-1"></i> Hapus
+                  </button>
+                </div>
+              </td>
+            `;
+            tbody.appendChild(tr);
+          });
+        }
 
     // FUNGSI UNTUK MELIHAT DETAIL CALON PEGAWAI OLEH ADMIN UNTUK VALIDASI PEGAWAI
     //============================================================================
@@ -1653,56 +1783,192 @@ async function submitCalonPegawai(event) {
     }
 
     // 3. FUNGSI TOMBOL: SETUJU DAN HAPUS (Menghubungkan ke Backend API Google Apps Script)
-    async function prosesValidasiCalon(nipy, username, statusValidasi) {
-      // Karena Calon Pegawai belum punya NIPY resmi saat mendaftar, kita bisa gunakan 'USERNAME' sebagai pencari cadangan
-      const calon = globalData.calonPegawai.find(c => c.USERNAME === username);
-      const namaCalon = calon ? calon["NAMA PEGAWAI"] : "Pegawai ini";
-      
-      const pesanKonfirmasi = statusValidasi === "SETUJU" 
-        ? `Apakah Anda yakin ingin MENYETUJUI dan MEMINDAHKAN ${namaCalon} ke Sheet Pegawai Tetap?` 
-        : `Apakah Anda yakin ingin MENGHAPUS pendaftaran ${namaCalon} dari database?`;
+        let tempCalonValidation = null;
+        
 
-      if (!confirm(pesanKonfirmasi)) return;
+// Tampilkan Modal Jika Nama Sama
+function tampilkanModalDuplikat(calon, pegawaiLama) {
+  tempCalonValidation = calon;
+  
+  document.getElementById("text-nama-duplikat").innerText = calon["NAMA PEGAWAI"];
+  document.getElementById("modal-konfirmasi-duplikat").classList.remove("hidden");
+}
 
-      try {
-        // Tampilkan loading screen sementara atau ubah cursor
-        document.body.style.cursor = 'wait';
+// Eksekusi jika Admin Klik "Ya, Timpa Data"
+function eksekusiTimpaData() {
+  if (!tempCalonValidation) return;
+  
+  // Jalankan ulang validasi dengan forceOverwrite = true
+  prosesValidasiCalon(
+    tempCalonValidation["NIPY"], 
+    tempCalonValidation["USERNAME"], 
+    "SETUJU", 
+    true // forceOverwrite
+  );
+}
 
-        const response = await fetch(API_URL, {
-          method: 'POST',
-          body: JSON.stringify({
-            action: 'validateCalon',
-            payload: {
-              nipy: calon["NIPY"] || username, // Kirim identifier unik (NIPY/Username) ke backend
-              statusValidasi: statusValidasi    // 'SETUJU' atau 'HAPUS'
-            }
-          }),
-          headers: { 'Content-Type': 'text/plain;charset=utf-8' }
+// Menutup Modal
+function tutupModalDuplikat() {
+  tempCalonValidation = null;
+  const modal = document.getElementById("modal-konfirmasi-duplikat");
+  if (modal) modal.classList.add("hidden");
+}
+
+// Tampilkan Modal Jika Nama Sama
+function tampilkanModalDuplikat(calon, pegawaiLama) {
+  tempCalonValidation = calon;
+  
+  document.getElementById("text-nama-duplikat").innerText = calon["NAMA PEGAWAI"];
+  document.getElementById("modal-konfirmasi-duplikat").classList.remove("hidden");
+}
+
+// Eksekusi jika Admin Klik "Ya, Timpa Data"
+function eksekusiTimpaData() {
+  if (!tempCalonValidation) return;
+  
+  // Jalankan ulang validasi dengan forceOverwrite = true
+  prosesValidasiCalon(
+    tempCalonValidation["NIPY"], 
+    tempCalonValidation["USERNAME"], 
+    "SETUJU", 
+    true // forceOverwrite
+  );
+}
+
+// Menutup Modal
+function tutupModalDuplikat() {
+  tempCalonValidation = null;
+  const modal = document.getElementById("modal-konfirmasi-duplikat");
+  if (modal) modal.classList.add("hidden");
+}
+
+
+async function prosesValidasiCalon(nipy, username, statusValidasi, forceOverwrite = false) {
+  // Ambil data calon pegawai dari memori
+  const dataCalonList = globalData.calonPegawai || [];
+  const calon = dataCalonList.find(c => String(c.USERNAME) === String(username) || String(c.NIPY) === String(nipy));
+  
+  if (!calon) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Data Tidak Ditemukan',
+      text: 'Data calon pegawai tidak ditemukan di antrean!',
+      confirmButtonColor: '#2563eb'
+    });
+    return;
+  }
+
+  const namaCalon = calon["NAMA PEGAWAI"] || "Pegawai ini";
+
+  // CEK PENGECEKAN DUPLIKAT NAMA JIKA STATUS 'SETUJU'
+  if (statusValidasi === "SETUJU" && !forceOverwrite) {
+    const dataPegawaiAktif = globalData.pegawai || [];
+    const namaClean = String(namaCalon).trim().toLowerCase();
+
+    // Cari apakah nama sudah ada di Pegawai Tetap/Aktif
+    const dataAda = dataPegawaiAktif.find(p => 
+      String(p["NAMA PEGAWAI"] || '').trim().toLowerCase() === namaClean
+    );
+
+    if (dataAda) {
+      // Buka Modal Peringatan Duplikat
+      tampilkanModalDuplikat(calon, dataAda);
+      return; // Stop di sini
+    }
+
+    // Jika tidak duplikat, konfirmasi biasa
+    const confirmResult = await Swal.fire({
+      title: 'Konfirmasi Validasi',
+      html: `Apakah Anda yakin ingin <b>MENYETUJUI</b> dan memindahkan <b>${namaCalon}</b> ke Database Pegawai YLM?`,
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#059669', // Warna hijau emerald
+      cancelButtonColor: '#64748b',
+      confirmButtonText: '<i class="fa fa-check mr-1"></i> Ya, Setujui',
+      cancelButtonText: 'Batal'
+    });
+
+    if (!confirmResult.isConfirmed) return;
+
+  } else if (statusValidasi === "HAPUS") {
+    const confirmResult = await Swal.fire({
+      title: 'Hapus Pendaftaran?',
+      html: `Apakah Anda yakin ingin <b>MENGHAPUS</b> pendaftaran calon pegawai <b>${namaCalon}</b>?`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#dc2626', // Warna merah
+      cancelButtonColor: '#64748b',
+      confirmButtonText: '<i class="fa fa-trash mr-1"></i> Ya, Hapus',
+      cancelButtonText: 'Batal'
+    });
+
+    if (!confirmResult.isConfirmed) return;
+      Swal.fire({
+          title: 'Memproses Validasi...',
+          text: 'Mohon tunggu sebentar, sedang memperbarui database.',
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+          didOpen: () => {
+            Swal.showLoading();
+          }
         });
 
-        const result = await response.json();
+  }
 
-        if (result.status === "SUCCESS") {
-          alert(`Sukses! Data telah berhasil di-${statusValidasi.toLowerCase()}.`);
-          
-          // Refresh data Admin setelah melakukan perubahan agar tabel langsung terupdate
-          if (typeof loadAdminData === "function") {
-            loadAdminData(); 
-          } else {
-            // Jika fungsi reload belum lengkap, hapus baris secara lokal dari UI sementara
-            globalData.calonPegawai = globalData.calonPegawai.filter(c => c.USERNAME !== username);
-            renderTableCalonPegawai(globalData.calonPegawai);
-          }
-        } else {
-          alert("Gagal memproses validasi: " + result.message);
+  // KIRIM KE BACKEND / GOOGLE APPS SCRIPT
+  try {
+    document.body.style.cursor = 'wait';
+    const response = await fetch(API_URL, {
+      method: 'POST',
+      body: JSON.stringify({
+        action: 'validateCalon',
+        payload: {
+          nipy: nipy || username,
+          username: username,
+          statusValidasi: statusValidasi,
+          isOverwrite: forceOverwrite
         }
-      } catch (error) {
-        alert("Terjadi kesalahan jaringan saat menghubungi Google Sheets.");
-        console.error(error);
-      } finally {
-        document.body.style.cursor = 'default';
-      }
+      }),
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' }
+    });
+
+    const result = await response.json();
+
+    if (result.status === "SUCCESS") {
+      tutupModalDuplikat();
+        await Swal.fire({
+        icon: 'success',
+        title: 'Berhasil!',
+        text: result.data || `Data calon pegawai berhasil di-${statusValidasi.toLowerCase()}.`,
+        confirmButtonColor: '#2563eb',
+        timer: 2000,
+        timerProgressBar: true
+      });
+
+      if (typeof loadAdminData === "function") loadAdminData();
+    } else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Proses Gagal',
+        text: result.message || 'Terjadi kesalahan pada server.',
+        confirmButtonColor: '#2563eb'
+      });
     }
+  } catch (err) {
+    console.error(err);
+    Swal.fire({
+      icon: 'error',
+      title: 'Kesalahan Jaringan',
+      text: 'Gagal terhubung ke Database. Silakan periksa koneksi internet Anda.',
+      confirmButtonColor: '#2563eb'
+    });
+  }
+}
+
+
+
+
+
 
 
     // =========================================================================
@@ -1754,7 +2020,13 @@ async function submitCalonPegawai(event) {
 
     } else {
       // Jika server merespons GAGAL
-      alert("Gagal mengambil data dari server: " + result.message);
+        Swal.fire({
+          icon: 'error',
+          title: 'Gagal Memuat Data',
+          text: `Gagal mengambil data dari server: ${result.message || 'Terjadi kesalahan tidak diketahui.'}`,
+          confirmButtonColor: '#2563eb',
+          confirmButtonText: 'Tutup'
+        });
       if (tbodyPegawai) tbodyPegawai.innerHTML = `<tr><td colspan="7" class="p-4 text-center text-slate-400">Struktur data 'pegawai' tidak ditemukan.</td></tr>`;
       if (tbodyKelola) tbodyKelola.innerHTML = `<tr><td colspan="7" class="p-4 text-center text-slate-400">Struktur data 'pegawai' tidak ditemukan.</td></tr>`;
       if (tbodyKeluar) tbodyKeluar.innerHTML = `<tr><td colspan="7" class="p-4 text-center text-slate-400">Struktur data 'pegawai' tidak ditemukan.</td></tr>`;
@@ -1779,45 +2051,117 @@ async function submitCalonPegawai(event) {
 // ============================================================================
 // REPLIKASI 1: FUNGSI UNTUK MENAMPILKAN DATA PEGAWAI AKTIF KE TABEL OLEH ADMIN
 // ============================================================================
+// Variable State untuk Paginasi Pegawai Aktif
+let currentPagePegawai = 1;
+let itemsPerPagePegawai = 25;
+let currentDataFilteredPegawai = [];
+
 function renderTablePegawaiAktif(dataPegawai) {
+  currentDataFilteredPegawai = dataPegawai || [];
   const tbody = document.getElementById("table-pegawai-rows");
   tbody.innerHTML = "";
 
-  if (!dataPegawai || dataPegawai.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="7" class="p-4 text-center text-slate-400">Tidak ada data pegawai aktif di database.</td></tr>`;
+  const totalData = currentDataFilteredPegawai.length;
+
+  if (totalData === 0) {
+    tbody.innerHTML = `<tr><td colspan="12" class="p-4 text-center text-slate-400">Tidak ada data pegawai aktif di database.</td></tr>`;
+    document.getElementById("info-paginasi-pegawai").innerText = "Menampilkan 0 data";
+    document.getElementById("tombol-paginasi-pegawai").innerHTML = "";
     return;
   }
 
-  dataPegawai.forEach(pegawai => {
-    // Jalankan logika penanganan foto seperti pola calon pegawai Anda
+  // Hitung Potongan Data per Halaman (Slice)
+  let limit = itemsPerPagePegawai === "ALL" ? totalData : parseInt(itemsPerPagePegawai);
+  let totalHalaman = Math.ceil(totalData / limit);
+
+  // Validasi halaman aktif
+  if (currentPagePegawai > totalHalaman) currentPagePegawai = totalHalaman;
+  if (currentPagePegawai < 1) currentPagePegawai = 1;
+
+  let startIndex = (currentPagePegawai - 1) * limit;
+  let endIndex = itemsPerPagePegawai === "ALL" ? totalData : Math.min(startIndex + limit, totalData);
+
+  const dataTampil = currentDataFilteredPegawai.slice(startIndex, endIndex);
+  
+
+  // Render Baris Data
+  dataTampil.forEach(pegawai => {
     const fotoUrl = pegawai["URL FOTO"] || "https://via.placeholder.com/150/1e40af/ffffff?text=FOTO";
-    
     const tr = document.createElement("tr");
     tr.className = "border-b hover:bg-slate-50 transition";
-       
+    const namaBersih = (pegawai["NAMA PEGAWAI"] || '').replace(/'/g, "");
     tr.innerHTML = `
-            <td class="p-4"><img src="${fotoUrl}" alt="Foto" class="w-10 h-10 object-cover rounded-full border"></td>
-            <td class="p-4 font-semibold text-slate-800">${pegawai["NAMA PEGAWAI"]}</td>
-            <td class="p-4 text-slate-600">${pegawai["MULAI KERJA"] || '-'}</td>
-            <td class="p-4 text-slate-600">${pegawai["MASA DINAS"] || '-'}</td>
-            <td class="p-4 text-slate-600">${pegawai["UNIT KERJA"] || '-'}</td>
-            <td class="p-4 text-slate-600">${pegawai["STATUS"] || '-'}</td>
-            <td class="p-4 text-slate-600">${pegawai["PEKERJAAN"] || '-'}</td>
-            <td class="p-4 text-slate-600">${pegawai["JABATAN"] || '-'}</td>
-            <td class="p-4 text-slate-600">${pegawai["PANGKAT"] || '-'}</td>
-            <td class="p-4 text-slate-600">${pegawai["BERKALA TERAKHIR"] || '-'}</td>
-            <td class="p-4 text-slate-600">${pegawai["USIA"] || '-'}</td>
-            <td class="p-4">
-              <div class="flex items-center justify-center space-x-2">
-                <button onclick="lihatDetailPegawai('${pegawai["USERNAME"]}')" class="px-3 py-1.5 bg-blue-50 text-blue-600 hover:bg-blue-100 rounded-lg text-xs font-semibold transition flex items-center mx-auto shadow-sm">
-                  <i class="fa fa-eye mr-1"></i>Lihat Detail
-                </button>
-              </div>
+      <td class="p-4">
+        <img src="${fotoUrl}" alt="Foto" onclick="previewFotoLayarPenuh('${fotoUrl}', '${namaBersih}')" class="w-10 h-10 object-cover rounded-full border cursor-pointer hover:opacity-80 transition shadow-sm" title="Klik untuk lihat foto penuh">
+      </td>
+      <td class="p-4 font-semibold text-slate-800">${pegawai["NAMA PEGAWAI"] || '-'}</td>
+      <td class="p-4 text-slate-600">${pegawai["MULAI KERJA"] || '-'}</td>
+      <td class="p-4 text-slate-600">${pegawai["MASA DINAS"] || '-'}</td>
+      <td class="p-4 text-slate-600">${pegawai["UNIT KERJA"] || '-'}</td>
+      <td class="p-4 text-slate-600">${pegawai["STATUS"] || '-'}</td>
+      <td class="p-4 text-slate-600">${pegawai["PEKERJAAN"] || '-'}</td>
+      <td class="p-4 text-slate-600">${pegawai["JABATAN"] || '-'}</td>
+      <td class="p-4 text-slate-600">${pegawai["PANGKAT"] || '-'}</td>
+      <td class="p-4 text-slate-600">${pegawai["BERKALA TERAKHIR"] || '-'}</td>
+      <td class="p-4 text-slate-600">${pegawai["USIA"] || '-'}</td>
+      <td class="p-4">
+        <div class="flex items-center justify-center space-x-2">
+          <button onclick="lihatDetailPegawai('${pegawai["USERNAME"]}')" class="px-3 py-1.5 bg-blue-50 text-blue-600 hover:bg-blue-100 rounded-lg text-xs font-semibold transition flex items-center mx-auto shadow-sm">
+            <i class="fa fa-eye mr-1"></i>Lihat Detail
+          </button>
+        </div>
       </td>
     `;
     tbody.appendChild(tr);
   });
+
+  // Update Teks Informasi Paginasi
+  document.getElementById("info-paginasi-pegawai").innerText = `Menampilkan ${startIndex + 1} - ${endIndex} dari ${totalData} data`;
+
+  // Render Tombol Paginasi
+  renderTombolPaginasi(totalHalaman);
 }
+
+function renderTombolPaginasi(totalHalaman) {
+  const container = document.getElementById("tombol-paginasi-pegawai");
+  container.innerHTML = "";
+
+  if (totalHalaman <= 1) return;
+
+  // Tombol Previous
+  const btnPrev = document.createElement("button");
+  btnPrev.className = `px-2.5 py-1 rounded border text-xs font-medium ${currentPagePegawai === 1 ? 'opacity-40 cursor-not-allowed bg-slate-50' : 'hover:bg-slate-100 bg-white text-slate-700'}`;
+  btnPrev.innerHTML = `<i class="fa fa-chevron-left"></i>`;
+  btnPrev.disabled = currentPagePegawai === 1;
+  btnPrev.onclick = () => { currentPagePegawai--; renderTablePegawaiAktif(currentDataFilteredPegawai); };
+  container.appendChild(btnPrev);
+
+  // Tombol Angka Halaman
+  for (let i = 1; i <= totalHalaman; i++) {
+    const btnNum = document.createElement("button");
+    const isActive = i === currentPagePegawai;
+    btnNum.className = `px-2.5 py-1 rounded border text-xs font-semibold ${isActive ? 'bg-blue-600 text-white border-blue-600' : 'hover:bg-slate-100 bg-white text-slate-700'}`;
+    btnNum.innerText = i;
+    btnNum.onclick = () => { currentPagePegawai = i; renderTablePegawaiAktif(currentDataFilteredPegawai); };
+    container.appendChild(btnNum);
+  }
+
+  // Tombol Next
+  const btnNext = document.createElement("button");
+  btnNext.className = `px-2.5 py-1 rounded border text-xs font-medium ${currentPagePegawai === totalHalaman ? 'opacity-40 cursor-not-allowed bg-slate-50' : 'hover:bg-slate-100 bg-white text-slate-700'}`;
+  btnNext.innerHTML = `<i class="fa fa-chevron-right"></i>`;
+  btnNext.disabled = currentPagePegawai === totalHalaman;
+  btnNext.onclick = () => { currentPagePegawai++; renderTablePegawaiAktif(currentDataFilteredPegawai); };
+  container.appendChild(btnNext);
+}
+
+// Handler Dropdown Tampil (10/25/50/ALL)
+function gantiLimitHalaman() {
+  itemsPerPagePegawai = document.getElementById("limit-per-halaman").value;
+  currentPagePegawai = 1;
+  renderTablePegawaiAktif(currentDataFilteredPegawai);
+}
+
 
 
 // FUNGSI UNTUK MENAMPILKAN DATA KE TABEL KELOLA PEGAWAI
@@ -1867,7 +2211,12 @@ function bukaModalEditPegawai(username) {
   const pegawai = globalData.pegawai.find(p => p["USERNAME"] === username);
   
   if (!pegawai) {
-    alert("Data pegawai tidak ditemukan!");
+    Swal.fire({
+      icon: 'error',
+      title: 'Data Tidak Ditemukan',
+      text: 'Data pegawai tidak ditemukan dalam sistem!',
+      confirmButtonColor: '#2563eb'
+    });
     return;
   }
 
@@ -2024,9 +2373,15 @@ async function simpanEditPegawaiAdmin(event) {
       const fileTerpilih = fileInput.files[0];
       
       if (fileTerpilih.size > 2 * 1024 * 1024) {
-        alert("Gagal: Ukuran foto baru terlalu besar! Maksimal 2MB.");
-        return; 
-      }
+          Swal.fire({
+            icon: 'warning',
+            title: 'Ukuran File Terlalu Besar',
+            text: 'Gagal mengunggah foto. Ukuran maksimal foto baru adalah 2MB.',
+            confirmButtonColor: '#2563eb',
+            confirmButtonText: 'Saya Mengerti'
+          });
+          return; 
+        }
       fotoBlobData = await fileToBase64(fileTerpilih); // Memanfaatkan fungsi fileToBase64 yang sudah ada
     }
     
@@ -2094,24 +2449,38 @@ async function simpanEditPegawaiAdmin(event) {
     const result = await response.json();
 
     if (result.status === "SUCCESS") {
-      alert("Sukses! Data pegawai dan rincian keluarga berhasil diperbarui oleh Admin.");
-      
-      if(fileInput) fileInput.value = ""; // Reset input file pencarian foto
-      
-      tutupModalEditPegawai(); // Tutup modal edit admin
-      
-      // PANGKATKAN KODE REFRESH TABEL DASHBOARD ADMIN ANDA DI SINI
-      // Contoh: jalankanFungsiMuatUlangTabelAdmin();
+      Swal.fire({
+          icon: 'success',
+          title: 'Pembaruan Berhasil!',
+          text: 'Data pegawai dan rincian keluarga berhasil diperbarui oleh Admin.',
+          confirmButtonColor: '#2563eb',
+          timer: 2000,
+          timerProgressBar: true
+        });
+      if(fileInput) fileInput.value = "";
+      tutupModalEditPegawai();
       if (typeof muatUlangDataTabelAdmin === "function") {
         muatUlangDataTabelAdmin();
       }
     } else {
-      alert("Gagal menyimpan perubahan: " + result.message);
+          Swal.fire({
+          icon: 'error',
+          title: 'Gagal Menyimpan',
+          text: result.message || 'Terjadi kesalahan saat menyimpan perubahan.',
+          confirmButtonColor: '#2563eb',
+          confirmButtonText: 'Tutup'
+        });
     }
 
   } catch (error) {
     console.error("Error simpanEditPegawaiAdmin:", error);
-    alert("Terjadi kesalahan sistem saat mencoba menyimpan data ke server.");
+    Swal.fire({
+      icon: 'error',
+      title: 'Kesalahan Sistem',
+      text: 'Terjadi kesalahan jaringan atau sistem saat mencoba menyimpan data ke server.',
+      confirmButtonColor: '#2563eb',
+      confirmButtonText: 'Coba Lagi'
+    });
   } finally {
     document.body.style.cursor = 'default';
     btnSimpan.innerHTML = originalBtnText;
@@ -2177,7 +2546,7 @@ function lihatDetailPegawai(username) {
           <!-- Data Pasangan -->
           <div class="border-b pb-2 last:border-0 last:pb-0">
             <p class="text-xs text-slate-400 font-medium">Nama Suami/Istri</p>
-            <p class="font-semibold text-slate-700">${keluarga["NAMA PASANGAN"] || '-'} | Lahir: ${keluarga["TANGGAL LAHIR PASANGAN"] || '-'} | Usia: ${keluarga["USIA PASANGAN"] || '-'}</p>
+            <p class="font-semibold text-slate-700">${keluarga["NAMA PASANGAN"] || '-'} | Lahir: ${keluarga["TANGGAL LAHIR PASANGAN"] || '-'} | Usia: ${keluarga["USIA PASANGAN"] || '-'}| Pekerjaan: ${keluarga["PEKERJAAN PASANGAN"] || '-'}</p>
           </div>
           
           <!-- Data Anak Kesatu -->
@@ -2242,7 +2611,13 @@ function bukaModalMutasi(username, defaultStatus) {
   const pegawai = globalData.pegawai ? globalData.pegawai.find(p => p.USERNAME === username) : null;
   
   if (!pegawai) {
-    alert("Data pegawai tidak ditemukan!");
+    Swal.fire({
+      icon: 'error',
+      title: 'Data Tidak Ditemukan',
+      text: 'Data pegawai tidak ditemukan dalam sistem!',
+      confirmButtonColor: '#2563eb',
+      confirmButtonText: 'Tutup'
+    });
     return;
   }
 
@@ -2329,15 +2704,34 @@ async function simpanMutasiPegawai(event) {
     console.log("👉 DATA ASLI DARI SERVER GAS:", result.data);
 
     if (result.status === "SUCCESS") {
-      alert(`Sukses! Pegawai berhasil dimutasi ke Sheet ${statusBaru}.`);
+      Swal.fire({
+        icon: 'success',
+        title: 'Mutasi Berhasil!',
+        text: `Pegawai berhasil dimutasi ke Sheet ${statusBaru}.`,
+        confirmButtonColor: '#2563eb',
+        timer: 2000,
+        timerProgressBar: true
+      });
       tutupModalMutasi();
       if (typeof muatUlangDataTabelAdmin === "function") muatUlangDataTabelAdmin(); // Refresh data dashboard
     } else {
-      alert("Gagal memproses mutasi: " + result.message);
+        Swal.fire({
+        icon: 'error',
+        title: 'Gagal Memproses Mutasi',
+        text: result.message || 'Terjadi kesalahan saat memproses data mutasi.',
+        confirmButtonColor: '#2563eb',
+        confirmButtonText: 'Tutup'
+      });
     }
   } catch (error) {
     console.error("Error mutasiPegawai:", error);
-    alert("Terjadi kesalahan sistem saat mencoba menghubungi server.");
+    Swal.fire({
+      icon: 'error',
+      title: 'Kesalahan Sistem',
+      text: 'Terjadi kesalahan jaringan atau sistem saat mencoba menghubungi server.',
+      confirmButtonColor: '#2563eb',
+      confirmButtonText: 'Coba Lagi'
+    });
   } finally {
     document.body.style.cursor = 'default';
     btnSubmit.innerHTML = textAsli;
@@ -2424,14 +2818,26 @@ function lihatDetailMutasi(jenis, username) {
   const arraySumber = (jenis === 'pensiun') ? globalData.pensiun : globalData.keluar;
   
   if (!arraySumber) {
-    alert("Kumpulan data mutasi tidak ditemukan.");
+        Swal.fire({
+        icon: 'warning',
+        title: 'Data Tidak Ditemukan',
+        text: 'Kumpulan data mutasi tidak ditemukan dalam sistem.',
+        confirmButtonColor: '#2563eb',
+        confirmButtonText: 'Tutup'
+      });
     return;
   }
 
   // 2. Cari data pegawai berdasarkan USERNAME yang baru saja kita simpan
   const pegawai = arraySumber.find(p => p.USERNAME === username);
   if (!pegawai) {
-    alert("Gagal memuat rincian: Data pegawai tidak ditemukan.");
+      Swal.fire({
+        icon: 'error',
+        title: 'Gagal Memuat Rincian',
+        text: 'Data pegawai tidak ditemukan dalam sistem.',
+        confirmButtonColor: '#2563eb',
+        confirmButtonText: 'Tutup'
+      });
     return;
   }
 
@@ -2586,6 +2992,48 @@ function refreshDataAdmin() {
 }
 
 
+// Fungsi Membuka Modal Preview Foto
+function previewFotoLayarPenuh(urlFoto, namaPegawai) {
+  const modal = document.getElementById("modal-preview-foto");
+  const content = document.getElementById("modal-foto-content");
+  const imgEl = document.getElementById("modal-foto-img");
+  const namaEl = document.getElementById("modal-foto-nama");
+  const downloadEl = document.getElementById("modal-foto-download");
+
+  // Pasang Data
+  imgEl.src = urlFoto;
+  namaEl.innerText = namaPegawai ? `Foto: ${namaPegawai}` : "Foto Pegawai";
+  downloadEl.href = urlFoto;
+
+  // Tampilkan Modal dengan animasi lembut
+  modal.classList.remove("hidden");
+  setTimeout(() => {
+    content.classList.remove("scale-95", "opacity-0");
+    content.classList.add("scale-100", "opacity-100");
+  }, 10);
+}
+
+// Fungsi Menutup Modal Preview Foto
+function tutupPreviewFoto() {
+  const modal = document.getElementById("modal-preview-foto");
+  const content = document.getElementById("modal-foto-content");
+
+  content.classList.remove("scale-100", "opacity-100");
+  content.classList.add("scale-95", "opacity-0");
+
+  setTimeout(() => {
+    modal.classList.add("hidden");
+    document.getElementById("modal-foto-img").src = ""; // Clear memory
+  }, 200);
+}
+
+// Fitur Opsional: Tutup modal ketika menekan tombol ESC di keyboard
+document.addEventListener("keydown", function(e) {
+  if (e.key === "Escape") {
+    tutupPreviewFoto();
+  }
+});
+
 
 
 
@@ -2629,7 +3077,8 @@ function refreshDataAdmin() {
                         <option value="P">Perempuan</option>
                       </select>
                     </div>
-                <div><label class="block text-xs font-semibold text-slate-500 mb-1">Agama</label><input type="text" id="e_agama" class="w-full p-2.5 border rounded-lg bg-white outline-none focus:ring-2 focus:ring-blue-500 text-sm font-medium"></div>
+                <div><label class="block text-xs font-semibold text-slate-500 mb-1">Agama</label><select id="e_agama" class="w-full p-2.5 border rounded-lg bg-white outline-none focus:ring-2 focus:ring-blue-500 text-sm font-medium">
+                      <option value="Katolik">Katolik</option><option value="Kristen">Kristen Protestan</option><option value="Islam">Islam</option><option value="Hindu">Hindu</option><option value="Buddha">Buddha</option></select></div>
                 <div><label class="block text-xs font-semibold text-slate-500 mb-1">No HP / WA</label><input type="text" id="e_nohp" class="w-full p-2.5 border rounded-lg bg-white outline-none focus:ring-2 focus:ring-blue-500 text-sm font-medium"></div>
                 <div class="sm:col-span-2"><label class="block text-xs font-semibold text-slate-500 mb-1">Alamat Domisili</label><textarea id="e_alamat" rows="2" class="w-full p-2.5 border rounded-lg bg-white outline-none focus:ring-2 focus:ring-blue-500 text-sm font-medium"></textarea></div>
               </div>
@@ -2640,20 +3089,65 @@ function refreshDataAdmin() {
             <h3 class="text-lg font-bold text-slate-700 mb-4 flex items-center border-b pb-2"><i class="fa fa-briefcase text-blue-600 mr-2"></i> Data Kepegawaian</h3>
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
               <div><label class="block text-xs font-semibold text-slate-500 mb-1">NIPY</label><input type="text" id="e_nipy" class="w-full p-2.5 border rounded-lg bg-white outline-none focus:ring-2 focus:ring-blue-500 text-sm font-medium" placeholder="Masukkan NIPY..."></div>
-              <div><label class="block text-xs font-semibold text-slate-500 mb-1">Jabatan Resmi</label><input type="text" id="e_jabatan" class="w-full p-2.5 border rounded-lg bg-white outline-none focus:ring-2 focus:ring-blue-500 text-sm font-medium"></div>
-              <div><label class="block text-xs font-semibold text-slate-500 mb-1">Pekerjaan/Tugas</label><input type="text" id="e_pekerjaan" class="w-full p-2.5 border rounded-lg bg-white outline-none focus:ring-2 focus:ring-blue-500 text-sm font-medium"></div>
-              <div><label class="block text-xs font-semibold text-slate-500 mb-1">Unit Kerja</label><input type="text" id="e_unit" class="w-full p-2.5 border rounded-lg bg-white outline-none focus:ring-2 focus:ring-blue-500 text-sm font-medium"></div>
+              <div><label class="block text-xs font-semibold text-slate-500 mb-1">Jabatan Resmi</label><select id="e_jabatan" class="w-full p-2.5 border rounded-lg bg-white outline-none focus:ring-2 focus:ring-blue-500 text-sm font-medium">
+                      <option value="Guru">Guru</option>
+                      <option value="Tenaga Kependidikan">Tenaga Kependidikan</option>
+                      <option value="Koordinator">Koordinator</option>
+                      <option value="Staf Sekolah">Staf Sekolah</option>
+                      <option value="Wakil Kepala Sekolah">Wakil Kepala Sekolah</option>
+                      <option value="Kepala Sekolah">Kepala Sekolah</option>
+                      <option value="Staf Yayasan">Staf Yayasan</option>
+                      <option value="Kasubbid">Kepala Sub Bidang</option>
+                      <option value="Kabid">Kepala Bidang</option>
+                      <option value="Perwakilan Yayasan">Perwakilan Yayasan</option>
+                      <option value="Ketua Yayasan">Ketua Yayasan</option>
+                    </select></div>
+              <div><label class="block text-xs font-semibold text-slate-500 mb-1">Pekerjaan/Tugas</label><select id="e_pekerjaan" class="w-full p-2.5 border rounded-lg bg-white outline-none focus:ring-2 focus:ring-blue-500 text-sm font-medium">
+                    <option value="Guru Kelas">Guru Kelas</option>
+                    <option value="Guru Mapel">Guru Mapel</option>
+                    <option value="Guru BK">Guru BK</option>
+                    <option value="Guru PK">Guru PK</option>
+                    <option value="TU Keuangan">TU Keuangan</option>
+                    <option value="TU Administrasi">TU Administrasi</option>
+                    <option value="Tenaga Perpustakaan">Tenaga Perpustakaan</option>
+                    <option value="Penjaga Sekolah">Penjaga Sekolah</option>
+                    <option value="Pramubakti">Pramubakti</option>
+                    <option value="Pengemudi">Pengemudi</option>
+                    <option value="Juru Masak">Juru Masak</option>
+                    <option value="Petugas Kantin">Petugas Kantin</option>
+                    <option value="Petugas Logistik">Petugas Logistik</option>
+                    <option value="Pengasuh TPA">Pengasuh TPA</option>
+                    <option value="Pegawai Kantor YLM">Pegawai Kantor YLM</option>            
+                  </select></div>
+              <div><label class="block text-xs font-semibold text-slate-500 mb-1">Unit Kerja</label><select id="e_unit" class="w-full p-2.5 border rounded-lg bg-white outline-none focus:ring-2 focus:ring-blue-500 text-sm font-medium">
+                    <option value="TK Xaverius 1 BL ">TK Xaverius 1 Bandar Lampung</option>
+                    <option value="TK Xaverius Metro">TK Xaverius Metro</option>
+                    <option value="TK Xaverius NR">TK Xaverius Ngestirahayu</option>
+                    <option value="TK Xaverius SB">TK Xaverius Seputih Banyak</option>
+                    <option value="PAUD Miryam TB">PAUD Miryam Tulang Bawang</option>
+                    <option value="TK Xaverius 1 PLG">TK Xaverius 1 Palembang</option>
+                    <option value="TK Miryam TS">TK Miryam Tenggarong Seberang</option>
+                    <option value="SD Xaverius Metro">SD Xaverius Metro</option>
+                    <option value="SD Xaverius 1 BL">SD Xaverius 1 Bandar Lampung</option>
+                    <option value="SD Xaverius 1 PLG ">SD Xaverius 1 Palembang </option>
+                    <option value="SMP Xaverius 1 BL">SMP Xaverius 1 Bandar Lampung</option>
+                    <option value="SMP Xaverius 6 PLG">SMP Xaverius 6 Palembang</option>
+                    <option value="Kantor Perwakilan YLM">Kantor Perwakilan YLM</option>
+                    <option value="Kantor YLM">Kantor YLM</option>            
+                  </select></div>
               <div><label class="block text-xs font-semibold text-slate-500 mb-1">Status Kepegawaian</label><select id="e_status" class="w-full p-2.5 border rounded-lg bg-white outline-none focus:ring-2 focus:ring-blue-500 text-sm font-medium">
-                      <option value="">-- Pilih --</option>
                       <option value="PTY">Pegawai Tetap Yayasan</option>
                       <option value="CPT">Calon Pegawai Tetap</option>
-                      <option value="PPT Kontrak">Pegawai Tidak Tetap Kontrak</option>
-                      <option value="PPT Honor">Pegawai Tidak Tetap Honor</option>
-                      <option value="HS">Pegawai Honor Sekolah</option>
-                    </select>
-                  </div>
+                      <option value="PTT Kontrak">Pegawai Tidak Tetap Kontrak</option>
+                      <option value="PTT Honor Biasa">Pegawai Tidak Tetap Honor Biasa</option>
+                      <option value="PTT Honor Khusus">Pegawai Tidak Tetap Honor Khusus</option>              
+                    </select></div>
               <div><label class="block text-xs font-semibold text-slate-500 mb-1">Mulai Kerja</label><input type="date" id="e_mulai_kerja" class="w-full p-2.5 border rounded-lg bg-white outline-none focus:ring-2 focus:ring-blue-500 text-sm font-medium"></div>
-              <div><label class="block text-xs font-semibold text-slate-500 mb-1">Pangkat / Golongan</label><input type="text" id="e_pangkat" class="w-full p-2.5 border rounded-lg bg-white outline-none focus:ring-2 focus:ring-blue-500 text-sm font-medium"></div>
+              <div><label class="block text-xs font-semibold text-slate-500 mb-1">Pangkat / Golongan</label><select id="e_pangkat" class="w-full p-2.5 border rounded-lg bg-white outline-none focus:ring-2 focus:ring-blue-500 text-sm font-medium">
+                      <option value="II A">II/A</option><option value="II B">II/B</option><option value="II C">II/C</option><option value="II D">II/D</option>
+                      <option value="III A">III/A</option><option value="III B">III/B</option><option value="III C">III/C</option><option value="III D">III/D</option>
+                      <option value="IV A">IV/A</option><option value="IV B">IV/B</option><option value="IV C">IV/C</option><option value="IV D">IV/D</option>
+                    </select></div>
               <div><label class="block text-xs font-semibold text-slate-500 mb-1">TMT Pangkat</label><input type="date" id="e_tmt_pangkat" class="w-full p-2.5 border rounded-lg bg-white outline-none focus:ring-2 focus:ring-blue-500 text-sm font-medium"></div>
               <div><label class="block text-xs font-semibold text-slate-500 mb-1">Berkala Terakhir</label><input type="date" id="e_berkala_terakhir" class="w-full p-2.5 border rounded-lg bg-white outline-none focus:ring-2 focus:ring-blue-500 text-sm font-medium"></div>
             </div>
@@ -2798,6 +3292,39 @@ function refreshDataAdmin() {
 
 
 
+<!-- MODAL PERINGATAN NAMA DUPLIKAT -->
+<div id="modal-konfirmasi-duplikat" class="fixed inset-0 z-50 hidden bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-4">
+  <div class="bg-white rounded-2xl max-w-md w-full overflow-hidden shadow-2xl p-6">
+    
+    <!-- Icon Warning -->
+    <div class="w-12 h-12 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center mx-auto mb-4">
+      <i class="fa fa-exclamation-triangle text-xl"></i>
+    </div>
+
+    <!-- Teks Peringatan -->
+    <h3 class="text-lg font-bold text-center text-slate-800 mb-2">Pegawai Sudah Terdaftar!</h3>
+    <p class="text-xs text-slate-600 text-center mb-4">
+      Pegawai dengan nama <b id="text-nama-duplikat" class="text-slate-900"></b> sudah ada di sheet <b>Pegawai Aktif</b>.
+    </p>
+
+    <div class="bg-amber-50 border border-amber-200 rounded-lg p-3 text-xs text-amber-800 mb-5">
+      <i class="fa fa-info-circle mr-1"></i> Menekan <b>Timpa Data</b> akan memperbarui data pegawai lama dengan informasi terbaru dari calon pegawai ini.
+    </div>
+
+    <!-- Tombol Keputusan Admin -->
+    <div class="flex items-center space-x-2">
+      <button onclick="tutupModalDuplikat()" class="w-1/2 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-semibold transition">
+        Batal
+      </button>
+      <button onclick="eksekusiTimpaData()" class="w-1/2 py-2.5 bg-amber-600 hover:bg-amber-700 text-white rounded-xl text-xs font-semibold transition shadow-sm">
+        Ya, Timpa Data
+      </button>
+    </div>
+
+  </div>
+</div>
+
+
 <div id="modal-mutasi-pegawai" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden z-50">
   <div class="relative top-20 mx-auto p-5 border w-full max-w-lg shadow-lg rounded-md bg-white">
     <div class="flex justify-between items-center border-b pb-3 mb-4">
@@ -2864,6 +3391,38 @@ function refreshDataAdmin() {
   </div>
 </div>
 
+
+
+<!-- MODAL PREVIEW FOTO LAYAR PENUH -->
+<div id="modal-preview-foto" class="fixed inset-0 z-50 hidden bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-4 transition-opacity duration-300">
+  <div class="bg-white rounded-2xl max-w-lg w-full overflow-hidden shadow-2xl transform transition-all scale-95 opacity-0 duration-300" id="modal-foto-content">
+    
+    <!-- Header Modal -->
+    <div class="flex items-center justify-between px-5 py-4 border-b border-slate-100 bg-slate-50">
+      <h3 id="modal-foto-nama" class="font-bold text-slate-800 text-sm truncate pr-2">Foto Pegawai</h3>
+      <button onclick="tutupPreviewFoto()" class="w-8 h-8 flex items-center justify-center rounded-full text-slate-400 hover:text-slate-600 hover:bg-slate-200 transition">
+        <i class="fa fa-times text-base"></i>
+      </button>
+    </div>
+
+    <!-- Area Gambar -->
+    <div class="p-4 bg-slate-900 flex items-center justify-center min-h-[300px] max-h-[70vh] overflow-hidden">
+      <img id="modal-foto-img" src="" alt="Preview Foto" class="max-w-full max-h-[65vh] object-contain rounded-lg shadow-md">
+    </div>
+
+    <!-- Footer / Tombol Aksi -->
+    <div class="px-5 py-3 border-t border-slate-100 bg-slate-50 flex items-center justify-between">
+      <a id="modal-foto-download" href="#" target="_blank" download class="inline-flex items-center space-x-1.5 text-xs font-semibold text-blue-600 hover:text-blue-800 transition">
+        <i class="fa fa-download"></i>
+        <span>Lihat Foto Asli</span>
+      </a>
+      <button onclick="tutupPreviewFoto()" class="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-lg text-xs font-semibold transition">
+        Tutup
+      </button>
+    </div>
+
+  </div>
+</div>
 
 
 </body>
