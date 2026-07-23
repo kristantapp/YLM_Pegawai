@@ -75,14 +75,12 @@
 
             <div class="grid grid-cols-2 gap-4">
               <div>
-                <label class="block text-sm font-medium mb-1">Jenis Kelamin</label>
-                <select id="calon_jk" required class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
+                <label class="block text-sm font-medium mb-1">Jenis Kelamin</label><select id="calon_jk" required class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
                   <option value="" disabled selected>Pilih...</option><option value="L">Laki-Laki</option><option value="P">Perempuan</option>
                 </select>
               </div>
               <div>
-                <label class="block text-sm font-medium mb-1">Agama</label>
-                <select id="calon_agama" required class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
+                <label class="block text-sm font-medium mb-1">Agama</label><select id="calon_agama" required class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
                   <option value="Katolik">Katolik</option><option value="Kristen">Kristen Protestan</option><option value="Islam">Islam</option><option value="Hindu">Hindu</option><option value="Buddha">Buddha</option><option value="Konghucu">Konghucu</option>
                 </select>
               </div>
@@ -117,13 +115,42 @@
 
             <div class="grid grid-cols-2 gap-4">
               <div>
-                <label class="block text-sm font-medium mb-1">Pekerjaan/Tugas</label>
-                <input type="text" id="calon_pekerjaan" placeholder="Contoh: Guru Kelas, Guru Mapel" required class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
-              </div>
+                <label class="block text-sm font-medium mb-1">Pekerjaan/Tugas</label><select id="calon_pekerjaan" placeholder="Contoh: Guru Kelas, Guru Mapel" required class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
+                      <option value="" disabled selected>Pilih...</option>
+                      <option value="Guru Kelas">Guru Kelas</option>
+                      <option value="Guru Mapel">Guru Mapel</option>
+                      <option value="Guru BK">Guru BK</option>
+                      <option value="Guru PK">Guru PK</option>
+                      <option value="TU Keuangan">TU Keuangan</option>
+                      <option value="TU Administrasi">TU Administrasi</option>
+                      <option value="Tenaga Perpustakaan">Tenaga Perpustakaan</option>
+                      <option value="Penjaga Sekolah">Penjaga Sekolah</option>
+                      <option value="Pramubakti">Pramubakti</option>
+                      <option value="Pengemudi">Pengemudi</option>
+                      <option value="Juru Masak">Juru Masak</option>
+                      <option value="Petugas Kantin">Petugas Kantin</option>
+                      <option value="Petugas Logistik">Petugas Logistik</option>
+                      <option value="Pengasuh TPA">Pengasuh TPA</option>
+                      <option value="Pegawai Kantor YLM">Pegawai Kantor YLM</option>            
+                    </select></div>
               <div>
-                <label class="block text-sm font-medium mb-1">Unit Kerja</label>
-                <input type="text" id="calon_unit" required class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
-              </div>
+                <label class="block text-sm font-medium mb-1">Unit Kerja</label><select id="calon_unit" required class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
+                  <option value="" disabled selected>Pilih...</option>
+                  <option value="TK Xaverius 1 BL ">TK Xaverius 1 Bandar Lampung</option>
+                  <option value="TK Xaverius Metro">TK Xaverius Metro</option>
+                  <option value="TK Xaverius NR">TK Xaverius Ngestirahayu</option>
+                  <option value="TK Xaverius SB">TK Xaverius Seputih Banyak</option>
+                  <option value="PAUD Miryam TB">PAUD Miryam Tulang Bawang</option>
+                  <option value="TK Xaverius 1 PLG">TK Xaverius 1 Palembang</option>
+                  <option value="TK Miryam TS">TK Miryam Tenggarong Seberang</option>
+                  <option value="SD Xaverius Metro">SD Xaverius Metro</option>
+                  <option value="SD Xaverius 1 BL">SD Xaverius 1 Bandar Lampung</option>
+                  <option value="SD Xaverius 1 PLG ">SD Xaverius 1 Palembang </option>
+                  <option value="SMP Xaverius 1 BL">SMP Xaverius 1 Bandar Lampung</option>
+                  <option value="SMP Xaverius 6 PLG">SMP Xaverius 6 Palembang</option>
+                  <option value="Kantor Perwakilan YLM">Kantor Perwakilan YLM</option>
+                  <option value="Kantor YLM">Kantor YLM</option>            
+                </select></div>              
             </div>
 
             <div class="grid grid-cols-2 gap-4">
@@ -132,8 +159,7 @@
                 <select id="calon_ktk" required class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
                   <option value="TK">Tidak Kawin (TK)</option>
                   <option value="K">Kawin (K)</option>
-                </select>
-              </div>
+                </select></div>
               <div>
                 <label class="block text-sm font-medium mb-1">Jumlah Anak</label>
                 <input type="number" id="calon_jml_anak" value="0" min="0" required class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
